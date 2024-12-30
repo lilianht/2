@@ -1,0 +1,11 @@
+from:
+  relationshipName: Product Solutions
+  slug: accounts
+  mergeColumns: false
+to:
+  slug: product-solutions
+  mergeColumns: false
+cardinality: 1:many
+mapping:
+  - fromColumn: ACCOUNT_ID
+    toColumn: ACCOUNT_ID

@@ -1,0 +1,7 @@
+name: Patients
+source: snowflake
+type: raw_sql
+rawSql: select * from lilian.public.patients
+primaryKey: PATIENT_ID
+primaryLabel: FIRST_NAME
+secondaryLabel: EMAIL

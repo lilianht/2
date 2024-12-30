@@ -1,0 +1,11 @@
+from:
+  relationshipName: Engagement Events
+  slug: users-alludo
+  mergeColumns: false
+to:
+  slug: engagement-events
+  mergeColumns: false
+cardinality: 1:many
+mapping:
+  - fromColumn: USER_ID
+    toColumn: USER_ID

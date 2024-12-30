@@ -1,0 +1,11 @@
+from:
+  relationshipName: Items Purchased
+  slug: purchases-2
+  mergeColumns: true
+to:
+  slug: items-purchased-2
+  mergeColumns: false
+cardinality: many:1
+mapping:
+  - fromColumn: PURCHASE_ID
+    toColumn: TRANSACTION_ID

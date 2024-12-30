@@ -1,0 +1,18 @@
+name: Purchases
+source: snowflake
+type: raw_sql
+rawSql: |
+  SELECT
+      EVENT_ID AS PURCHASE_ID, -- Use EVENT_ID as unique purchase ID
+      USER_ID, -- User who made the purchase
+      DATEADD('day', -MOD(NUMBER_365, 365), CURRENT_DATE()) AS TIMESTAMP, -- Timestamp within the last year
+      ROUND(MOD(NUMBER_1000, 400) + 59.99, 2) AS TOTAL, -- Total in the range $59.99 to $459.99
+      CASE
+          WHEN MOD(NUMBER_7, 4) = 0 THEN 'Credit Card'
+          WHEN MOD(NUMBER_7, 4) = 1 THEN 'Debit Card'
+          WHEN MOD(NUMBER_7, 4) = 2 THEN 'PayPal'
+          ELSE 'Other'
+      END AS PAYMENT_METHOD, -- Payment methods
+      CURRENT_TIMESTAMP AS PURCHASED_AT -- Time when the record was created
+  FROM
+      PUBLIC.EVENTS;

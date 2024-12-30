@@ -1,0 +1,41 @@
+name: Items Purchased
+source: snowflake
+description: Information about the items purchased by a customer.
+type: raw_sql
+rawSql: |
+  SELECT
+      EVENT_ID AS purchase_id,
+      USER_ID AS customer_id,
+      TO_CHAR(MOD(NUMBER_100, 1000)) AS sku,  -- Generating SKU numbers up to 1000
+      CASE 
+          WHEN NUMBER_7 = 1 THEN 'Dutch Oven'
+          WHEN NUMBER_7 = 2 THEN 'Bakeware'
+          WHEN NUMBER_7 = 3 THEN 'Griddles'
+          WHEN NUMBER_7 = 4 THEN 'Bundles'
+          ELSE 'Skillet'
+      END AS Type,
+      -- CASE 
+      --     WHEN NUMBER_10 = 1 THEN 'Spiritual Growth'
+      --     WHEN NUMBER_10 = 2 THEN 'Prayer'
+      --     WHEN NUMBER_10 = 3 THEN 'Marriage'
+      --     WHEN NUMBER_10 = 4 THEN 'Finance'
+      --     WHEN NUMBER_10 = 5 THEN 'Health'
+      --     WHEN NUMBER_10 = 6 THEN 'Leadership'
+      --     ELSE 'Life Issues'
+      -- END AS topic,
+      CASE 
+          WHEN NUMBER_10 = 1 THEN 'USA Enamel'
+          WHEN NUMBER_10 = 2 THEN 'USA Enamel'
+          WHEN NUMBER_10 = 3 THEN 'Classic Collection'
+          WHEN NUMBER_10 = 4 THEN 'Chef Collection'
+          WHEN NUMBER_10 = 5 THEN 'Blacklock Collection'
+          WHEN NUMBER_10 = 6 THEN 'Classic Collection'
+          WHEN NUMBER_10 = 7 THEN 'Legacy Series'
+          WHEN NUMBER_10 = 8 THEN 'Dolly Parton'
+          ELSE 'Dolly Parton'
+      END AS Collection,
+      DATEADD('day', -NUMBER_365, CURRENT_DATE()) AS timestamp,
+      (NUMBER_100 * 0.5) + 4.99 AS item_subtotal,  -- Generating item subtotal with a base value of $4.99
+      BOOLEAN_34 AS is_returned,
+  FROM
+      Public.events;
