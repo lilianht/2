@@ -1,0 +1,6 @@
+name: Events
+source: Snowflake-a4ac9
+description: Raw events table
+type: raw_sql
+rawSql: select * from public.events
+primaryKey: USER_ID
