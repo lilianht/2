@@ -1,0 +1,11 @@
+from:
+  relationshipName: Canceled appointment
+  slug: patients
+  mergeColumns: false
+to:
+  slug: canceled-appointment
+  mergeColumns: false
+cardinality: 1:many
+mapping:
+  - fromColumn: PATIENT_ID
+    toColumn: PATIENT_ID

@@ -1,0 +1,11 @@
+from:
+  relationshipName: Completed health questionnaire
+  slug: patients
+  mergeColumns: false
+to:
+  slug: completed-health-questionnaire
+  mergeColumns: false
+cardinality: 1:many
+mapping:
+  - fromColumn: PATIENT_ID
+    toColumn: PATIENT_ID

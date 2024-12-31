@@ -1,0 +1,9 @@
+name: Logged in
+source: Snowflake-75068
+description: Frequency of opening up patient portal and logging in
+type: raw_sql
+rawSql: |-
+  select *
+  from lilian.public.portal_events
+  where event_type = 'Logged in';
+eventTimestampColumn: TIMESTAMP

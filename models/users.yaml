@@ -1,0 +1,6 @@
+name: All Peloton Users
+source: Snowflake-a4ac9
+description: Raw users table
+type: raw_sql
+rawSql: select * from public.users
+primaryKey: EMAIL

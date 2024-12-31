@@ -1,0 +1,20 @@
+name: Companies
+source: snowflake
+description: Any company that a b2c user might be employed with for expansion motions.
+type: raw_sql
+rawSql: |
+  SELECT
+      a.ACCOUNT_ID AS COMPANY_ID,
+      -- Generate company names using ACCOUNT_NAME or fallback to 'Company [ACCOUNT_ID]'
+      COALESCE(a.ACCOUNT_NAME, CONCAT('Company ', CAST(a.ACCOUNT_ID AS STRING))) AS COMPANY_NAME,
+      u.USER_ID,
+      -- Registered date using NUMBER_365
+      DATEADD('day', -u.NUMBER_365, CURRENT_DATE()) AS REGISTERED_AT -- Registered within the last year
+  FROM
+      PUBLIC.ACCOUNTS a
+  JOIN
+      PUBLIC.USERS u
+  ON
+      a.ACCOUNT_ID = u.ACCOUNT_ID
+  WHERE
+      a.ACCOUNT_ID IS NOT NULL -- Ensure only valid company IDs are included

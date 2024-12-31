@@ -1,0 +1,6 @@
+name: Accounts
+source: Snowflake-a4ac9
+description: Raw accounts table
+type: raw_sql
+rawSql: select * from public.accounts
+primaryKey: ACCOUNT_ID

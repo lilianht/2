@@ -1,0 +1,11 @@
+from:
+  relationshipName: Made a successful referral
+  slug: contacts
+  mergeColumns: false
+to:
+  slug: made-a-successful-referral
+  mergeColumns: false
+cardinality: 1:many
+mapping:
+  - fromColumn: CONTACT_ID
+    toColumn: CONTACT_ID

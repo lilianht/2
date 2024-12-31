@@ -1,0 +1,8 @@
+name: Submitted telehealth app review
+source: Snowflake-75068
+description: Patients who provided user feedback around telehealth platform
+type: raw_sql
+rawSql: >-
+  select * from lilian.public.portal_events where event_type = 'Submitted app
+  feedback'
+eventTimestampColumn: TIMESTAMP

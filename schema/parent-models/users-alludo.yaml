@@ -1,0 +1,41 @@
+name: Users (Alludo)
+source: snowflake
+type: raw_sql
+rawSql: |
+  SELECT
+      USER_ID,
+      FIRST_NAME,
+      LAST_NAME,
+      EMAIL,
+      -- Generate a phone number using NUMBER_1000 and NUMBER_100
+      CONCAT('1-', LPAD(CAST(ABS(MOD(NUMBER_1000, 800) + 200) AS STRING), 3, '0'), '-', 
+             LPAD(CAST(ABS(MOD(NUMBER_100, 1000)) AS STRING), 3, '0'), '-', 
+             LPAD(CAST(ABS(MOD(NUMBER_30, 10000)) AS STRING), 4, '0')) AS PHONE_NUMBER, -- US-style phone number
+      -- Use NUMBER_365 for generating realistic registration dates
+      DATEADD('day', -NUMBER_365, CURRENT_DATE()) AS REGISTERED_AT, -- Registered within the last year
+      -- State distribution based on NUMBER_10
+      CASE
+          WHEN NUMBER_10 % 5 = 0 THEN 'California'
+          WHEN NUMBER_10 % 5 = 1 THEN 'Texas'
+          WHEN NUMBER_10 % 5 = 2 THEN 'Florida'
+          WHEN NUMBER_10 % 5 = 3 THEN 'New York'
+          ELSE 'Illinois'
+      END AS STATE,
+      -- Generate DOB skewed towards ages 18-60 using NUMBER_1000
+      DATEADD('year', -18 - MOD(NUMBER_1000, 43), CURRENT_DATE()) AS DOB, -- Ages 18-60
+      -- User status based on BOOLEAN_34 and BOOLEAN_52
+      CASE
+          WHEN BOOLEAN_34 THEN 'Active'
+          WHEN BOOLEAN_52 THEN 'Churned'
+          ELSE 'Free Trial'
+      END AS STATUS,
+      -- Company ID linked to ACCOUNT_ID, with 80% NULL
+      CASE
+          WHEN NUMBER_100 % 5 = 0 THEN ACCOUNT_ID
+          ELSE NULL
+      END AS COMPANY_ID
+  FROM
+      PUBLIC.USERS;
+primaryKey: USER_ID
+primaryLabel: FIRST_NAME
+secondaryLabel: EMAIL

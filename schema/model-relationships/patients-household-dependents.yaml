@@ -1,0 +1,11 @@
+from:
+  relationshipName: Household Dependents
+  slug: patients
+  mergeColumns: false
+to:
+  slug: household-dependents
+  mergeColumns: false
+cardinality: 1:many
+mapping:
+  - fromColumn: PATIENT_ID
+    toColumn: PATIENT_ID

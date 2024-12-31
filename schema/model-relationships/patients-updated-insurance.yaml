@@ -1,0 +1,11 @@
+from:
+  relationshipName: Updated insurance
+  slug: patients
+  mergeColumns: false
+to:
+  slug: updated-insurance
+  mergeColumns: false
+cardinality: 1:many
+mapping:
+  - fromColumn: PATIENT_ID
+    toColumn: PATIENT_ID

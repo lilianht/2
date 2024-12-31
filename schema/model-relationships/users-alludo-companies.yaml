@@ -1,0 +1,11 @@
+from:
+  relationshipName: Companies
+  slug: users-alludo
+  mergeColumns: true
+to:
+  slug: companies
+  mergeColumns: false
+cardinality: many:1
+mapping:
+  - fromColumn: USER_ID
+    toColumn: USER_ID

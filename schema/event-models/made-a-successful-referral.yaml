@@ -1,0 +1,10 @@
+name: Made a successful referral
+source: b2-b-accounts
+description: >-
+  Loyal Moneris merchant contacts who referred another account to Moneris'
+  product suite.
+type: raw_sql
+rawSql: >-
+  select * from lilian.public.b2b_contact_events where event_type = 'referred
+  successfully'
+eventTimestampColumn: TIMESTAMP

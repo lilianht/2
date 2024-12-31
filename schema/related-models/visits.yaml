@@ -1,0 +1,4 @@
+name: Visit History
+source: Snowflake-75068
+type: raw_sql
+rawSql: select * from lilian.public.visits

@@ -1,0 +1,11 @@
+from:
+  relationshipName: Opened support ticket
+  slug: contacts
+  mergeColumns: false
+to:
+  slug: opened-support-ticket
+  mergeColumns: false
+cardinality: 1:many
+mapping:
+  - fromColumn: CONTACT_ID
+    toColumn: CONTACT_ID
