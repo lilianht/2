@@ -1,8 +1,0 @@
-name: Messaged provider
-source: Snowflake-75068
-description: All patients' engagements with telehealth portal
-type: raw_sql
-rawSql: >-
-  select * from lilian.public.portal_events where event_type = 'Messaged
-  provider'
-eventTimestampColumn: TIMESTAMP

@@ -1,7 +1,0 @@
-name: Completed health questionnaire
-source: Snowflake-75068
-type: raw_sql
-rawSql: >-
-  select * from lilian.public.portal_events where event_type = 'Completed health
-  questionnaire'
-eventTimestampColumn: TIMESTAMP

@@ -1,8 +1,0 @@
-name: Booked consult
-source: Snowflake-75068
-description: Patients who scheduled an appointment
-type: raw_sql
-rawSql: >-
-  select * from lilian.public.portal_events where event_type = 'Booked initial
-  consultation'
-eventTimestampColumn: TIMESTAMP

@@ -1,7 +1,0 @@
-name: All Users
-source: snowflake-bumble
-type: raw_sql
-rawSql: select * from public.users
-primaryKey: USER_ID
-primaryLabel: FIRST_NAME
-secondaryLabel: EMAIL

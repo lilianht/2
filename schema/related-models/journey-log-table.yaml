@@ -1,6 +1,0 @@
-name: Journey Log Table
-source: Snowflake-75068
-type: raw_sql
-rawSql: |-
-  select *
-  from lilian.hightouch_planner.JOURNEY_LOG_75660F3FA8604796A317CAD2F5D2D11F;

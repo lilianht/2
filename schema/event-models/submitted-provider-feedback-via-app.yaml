@@ -1,8 +1,0 @@
-name: Submitted provider feedback via app
-source: Snowflake-75068
-description: Patients who submitted provider feedback via app with source
-type: raw_sql
-rawSql: >-
-  select * from lilian.public.portal_events where event_type = 'Submitted
-  provider feedback';
-eventTimestampColumn: TIMESTAMP

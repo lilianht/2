@@ -1,5 +1,0 @@
-name: Contacts
-source: b2-b-accounts
-description: All contacts associated with the merchant account.
-type: raw_sql
-rawSql: select * from lilian.public.b2b_contacts

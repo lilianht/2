@@ -1,5 +1,0 @@
-name: Leads
-source: b2-b-accounts
-description: Lead opportunities for potential new business and expansion use cases.
-type: raw_sql
-rawSql: select * from lilian.public.b2b_leads

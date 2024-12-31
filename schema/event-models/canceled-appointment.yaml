@@ -1,8 +1,0 @@
-name: Canceled appointment
-source: Snowflake-75068
-description: Customers who canceled an appointment via portal
-type: raw_sql
-rawSql: >-
-  select * from lilian.public.portal_events where event_type = 'Canceled
-  appointment';
-eventTimestampColumn: TIMESTAMP

@@ -1,8 +1,0 @@
-name: Opened support ticket
-source: b2-b-accounts
-description: Merchants who opened a support request with Moneris Support
-type: raw_sql
-rawSql: >-
-  select * from lilian.public.b2b_contact_events where event_type = 'opened
-  support ticket'
-eventTimestampColumn: TIMESTAMP

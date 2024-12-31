@@ -1,7 +1,0 @@
-name: Accounts
-source: b2-b-accounts
-description: >-
-  All accounts/merchants existing with Moneris and their corresponding profile
-  information (industry, transactional sale volume, etc.)
-type: raw_sql
-rawSql: select * from lilian.public.b2b_accounts

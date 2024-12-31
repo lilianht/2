@@ -1,5 +1,0 @@
-name: Providers
-source: Snowflake-75068
-description: Provider Catalog for office and virtual visits
-type: table
-tableName: PUBLIC.VISITS

@@ -1,7 +1,0 @@
-name: Moneris Product Solutions
-source: b2-b-accounts
-description: >-
-  Relational model containing product utilization data for each merchant
-  account.
-type: raw_sql
-rawSql: select * from lilian.public.b2b_solutions

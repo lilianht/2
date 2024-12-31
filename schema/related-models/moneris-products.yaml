@@ -1,5 +1,0 @@
-name: Moneris Products
-source: b2-b-accounts
-description: Product solutions associated with each account
-type: raw_sql
-rawSql: select * from LILIAN.PUBLIC.B2B_SOLUTIONS

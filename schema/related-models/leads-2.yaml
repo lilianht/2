@@ -1,7 +1,0 @@
-name: Leads
-source: b2-b-accounts
-description: >-
-  Incoming leads data from sales; may be associated with an account_id depending
-  on whether it is new business or expansion.
-type: raw_sql
-rawSql: select * from lilian.public.b2b_leads

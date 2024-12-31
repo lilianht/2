@@ -1,7 +1,0 @@
-name: Rescheduled appointment
-source: Snowflake-75068
-type: raw_sql
-rawSql: >-
-  select * from lilian.public.portal_events where event_type = 'Rescheduled
-  appointment'
-eventTimestampColumn: TIMESTAMP
