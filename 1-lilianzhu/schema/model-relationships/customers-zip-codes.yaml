@@ -1,0 +1,11 @@
+from:
+  relationshipName: Zip codes
+  slug: customers
+  mergeColumns: false
+to:
+  slug: zip-codes
+  mergeColumns: false
+cardinality: '1:1'
+mapping:
+  - fromColumn: USER_ID
+    toColumn: USER_ID

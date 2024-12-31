@@ -1,0 +1,45 @@
+name: Clients
+source: marketplace
+description: Clients (companies, accounts) that hire individual freelancers
+type: raw_sql
+rawSql: |
+  WITH user_account_pairs AS (
+      -- Pair users with accounts to create a 1:many relationship
+      SELECT
+          u.USER_ID,
+          a.ACCOUNT_ID,
+          a.ACCOUNT_NAME,
+          -- Generate random contract start and end dates
+          DATEADD('day', -MOD(ABS(CAST(RANDOM() * 1000 AS INT)), 365), CURRENT_DATE()) AS CONTRACT_START_DATE,
+          DATEADD('day', MOD(ABS(CAST(RANDOM() * 1000 AS INT)), 180), CURRENT_DATE()) AS CONTRACT_END_DATE,
+          -- Assign a random contract value between $50 and $200
+          50 + MOD(ABS(CAST(RANDOM() * 1000 AS INT)), 151) AS CONTRACT_VALUE,
+          -- Assign active standing (75% in good standing, 25% suspended)
+          CASE
+              WHEN RANDOM() < 0.75 THEN 'Good Standing'
+              ELSE 'Suspended'
+          END AS ACTIVE_STANDING,
+          -- Assign job status (randomly distribute among upcoming, in progress, and complete)
+          CASE
+              WHEN MOD(ROW_NUMBER() OVER (PARTITION BY u.USER_ID ORDER BY RANDOM()), 3) = 0 THEN 'Upcoming'
+              WHEN MOD(ROW_NUMBER() OVER (PARTITION BY u.USER_ID ORDER BY RANDOM()), 3) = 1 THEN 'In Progress'
+              ELSE 'Complete'
+          END AS JOB_STATUS
+      FROM
+          PUBLIC.USERS u
+      CROSS JOIN
+          PUBLIC.ACCOUNTS a
+      WHERE
+          MOD(ABS(HASH(u.USER_ID || a.ACCOUNT_ID)), 3) = 0 -- Randomly assign some accounts to users
+  )
+  SELECT
+      USER_ID,
+      ACCOUNT_ID,
+      ACCOUNT_NAME,
+      CONTRACT_START_DATE,
+      CONTRACT_END_DATE,
+      CONTRACT_VALUE,
+      ACTIVE_STANDING,
+      JOB_STATUS
+  FROM
+      user_account_pairs;

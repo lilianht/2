@@ -1,0 +1,11 @@
+from:
+  relationshipName: Subscribed
+  slug: contacts
+  mergeColumns: false
+to:
+  slug: subscribed
+  mergeColumns: false
+cardinality: 1:many
+mapping:
+  - fromColumn: CONTACT_ID
+    toColumn: CONTACT_ID

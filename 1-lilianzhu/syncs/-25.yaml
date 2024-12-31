@@ -1,0 +1,26 @@
+model: pelousers
+destination: undefined-885f0-10f16
+config:
+  mode: upsert
+  type: object
+  object: user
+  mappings:
+    - to: email
+      from: EMAIL
+      type: standard
+  deleteMode: clear
+  rowsPerBatch: 75
+  aliasMappings: []
+  configVersion: 3
+  customMappings:
+    - to: opt_in (str to bool)
+      from: OPT_IN
+      type: standard
+  parallelization: 65
+  externalIdMapping:
+    to: external_id
+    from: USERID
+    type: standard
+schedule:
+  type: manual
+schedulePaused: false

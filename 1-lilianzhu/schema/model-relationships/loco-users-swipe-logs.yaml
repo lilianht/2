@@ -1,0 +1,11 @@
+from:
+  relationshipName: Swipe logs
+  slug: loco-users
+  mergeColumns: false
+to:
+  slug: swipe-logs
+  mergeColumns: false
+cardinality: 1:many
+mapping:
+  - fromColumn: USER_ID
+    toColumn: USER_ID

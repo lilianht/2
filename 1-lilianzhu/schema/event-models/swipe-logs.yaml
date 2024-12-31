@@ -1,0 +1,55 @@
+name: Swipe logs
+source: snowflake-bumble
+description: Usage logs for activity on the app
+type: raw_sql
+rawSql: |
+  WITH user_pool AS (
+      -- Create a pool of user_ids to choose from for swipes
+      SELECT DISTINCT USER_ID
+      FROM PUBLIC.EVENTS
+  ),
+  user_swipe_limits AS (
+      -- Assign a random number of swipes (5 to 45) per user
+      SELECT
+          USER_ID,
+          5 + MOD(ABS(CAST(RANDOM() * 1000 AS INT)), 41) AS MAX_SWIPES -- Random swipe count between 5 and 45
+      FROM
+          user_pool
+  ),
+  swipe_events AS (
+      -- Generate swipe events for each user
+      SELECT
+          u1.USER_ID AS USER_ID, -- The user performing the swipe
+          u2.USER_ID AS TARGET_USER_ID, -- The target user being swiped on
+          CASE
+              WHEN MOD(RANDOM(), 2) = 0 THEN 'Left'
+              ELSE 'Right'
+          END AS DIRECTION, -- Randomly assign "Left" or "Right"
+          ROW_NUMBER() OVER (PARTITION BY u1.USER_ID ORDER BY RANDOM()) AS SWIPE_RANK, -- Assign a rank to limit swipes
+          -- Randomized timestamp distribution: 70% within 1 day, 20% within 3 days, 10% within 1 week
+          CASE 
+              WHEN RANDOM() < 0.7 THEN DATEADD('minute', -MOD(ABS(CAST(RANDOM() * 100000 AS INT)), 1440), CURRENT_TIMESTAMP) -- Last 1 day
+              WHEN RANDOM() < 0.9 THEN DATEADD('minute', -MOD(ABS(CAST(RANDOM() * 100000 AS INT)), 4320), CURRENT_TIMESTAMP) -- Last 3 days
+              ELSE DATEADD('minute', -MOD(ABS(CAST(RANDOM() * 100000 AS INT)), 10080), CURRENT_TIMESTAMP) -- Last 1 week
+          END AS TIMESTAMP
+      FROM
+          user_pool u1
+      CROSS JOIN
+          user_pool u2
+      WHERE
+          u1.USER_ID != u2.USER_ID -- Ensure the user does not swipe on themselves
+  )
+  SELECT
+      s.USER_ID,
+      s.TARGET_USER_ID,
+      s.DIRECTION,
+      s.TIMESTAMP
+  FROM
+      swipe_events s
+  JOIN
+      user_swipe_limits l
+  ON
+      s.USER_ID = l.USER_ID
+  WHERE
+      s.SWIPE_RANK <= l.MAX_SWIPES -- Limit the number of swipes per user
+eventTimestampColumn: TIMESTAMP

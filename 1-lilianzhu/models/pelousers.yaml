@@ -1,0 +1,6 @@
+name: Pelousers
+source: Snowflake-75068
+description: Test model for data type changes varchar to boolean
+type: table
+tableName: PUBLIC.PELOUSERS
+primaryKey: USERID

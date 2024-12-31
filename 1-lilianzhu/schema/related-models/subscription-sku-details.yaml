@@ -1,0 +1,23 @@
+name: Subscription SKU Details
+source: snowflake-bumble
+type: raw_sql
+rawSql: |
+  SELECT
+    user_id as subscription_id,
+    number_1000 AS Active_user_count,
+    CASE
+      WHEN number_10 = 0 THEN 'Boost'
+      WHEN number_10 = 1 THEN 'Boost'
+      WHEN number_10 = 2 THEN 'Boost'
+      WHEN number_10 = 3 THEN 'Boost'
+      WHEN number_10 = 4 THEN 'Premium'
+      WHEN number_10 = 5 THEN 'Premium'
+      WHEN number_10 = 6 THEN 'Premium'
+      WHEN number_10 = 7 THEN 'Premium+'
+      WHEN number_10 = 8 THEN 'Premium+'
+      WHEN number_10 = 9 THEN 'Premium+'
+      WHEN number_10 = 10 THEN 'Boost'
+      ELSE NULL
+    END AS subscription_plan
+  FROM
+    PUBLIC.USERS

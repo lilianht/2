@@ -1,0 +1,38 @@
+name: Cart abandoners
+source: e-commerce
+type: raw_sql
+rawSql: |-
+  SELECT
+      -- Add to Cart Columns
+      u.USER_ID,
+      u.EMAIL,
+      add_to_cart.EVENT_ID AS ADD_TO_CART_EVENT_ID,
+      DATEADD('minute', -MOD(ABS(CAST(RANDOM() * 10000 AS INT)), 10080), CURRENT_TIMESTAMP) AS ADD_TO_CART_TIMESTAMP, -- Random timestamp within the last 7 days
+      CONCAT('https://store.com/checkout/session/', u.USER_ID, '/', add_to_cart.EVENT_ID) AS CHECKOUT_LINK,
+      -- Cart Details
+      50 + MOD(add_to_cart.NUMBER_1000, 351) AS CART_TOTAL,
+      -- Assign generic product names
+      CASE MOD(add_to_cart.NUMBER_10, 5)
+          WHEN 0 THEN 'Training Shoes'
+          WHEN 1 THEN 'Running Shoes'
+          WHEN 2 THEN 'Pullover Hoodie'
+          WHEN 3 THEN 'Duffle Bag'
+          ELSE 'Limited Edition Sneakers'
+      END AS PRODUCT_NAME,
+      -- Purchase Columns
+      purchase.EVENT_ID AS PURCHASE_EVENT_ID,
+      DATEADD('day', -purchase.NUMBER_30, CURRENT_TIMESTAMP) AS PURCHASE_TIMESTAMP
+  FROM
+      PUBLIC.USERS u
+  LEFT JOIN
+      PUBLIC.EVENTS add_to_cart
+      ON u.USER_ID = add_to_cart.USER_ID
+      AND add_to_cart.BOOLEAN_34 = TRUE -- Assume BOOLEAN_34 indicates "add to cart"
+  LEFT JOIN
+      PUBLIC.EVENTS purchase
+      ON u.USER_ID = purchase.USER_ID
+      AND purchase.BOOLEAN_52 = TRUE -- Assume BOOLEAN_52 indicates "purchase"
+  WHERE
+      add_to_cart.BOOLEAN_34 = TRUE
+      AND purchase.EVENT_ID IS NULL -- Only include users who added to cart but did not purchase
+primaryKey: USER_ID

@@ -1,0 +1,30 @@
+model: users
+destination: undefined-e72d8-f5a59
+description: Moengage Loco test
+config:
+  mode: upsert
+  type: object
+  object: customer
+  mappings:
+    - to: first_name
+      from: FIRST_NAME
+      type: standard
+    - to: last_name
+      from: LAST_NAME
+      type: standard
+    - to: email
+      from: EMAIL
+      type: standard
+    - to: gender
+      from: GENDER
+      type: standard
+  rowsPerBatch: 100
+  configVersion: 3
+  customMappings: []
+  parallelization: 5
+  externalIdMapping:
+    to: customer_id
+    from: USER_ID
+schedule:
+  type: manual
+schedulePaused: false

@@ -1,0 +1,7 @@
+name: Requested demo
+source: b2-b-accounts
+type: raw_sql
+rawSql: >-
+  select * from lilian.public.b2b_contact_events where event_type = 'requested
+  demo'
+eventTimestampColumn: TIMESTAMP

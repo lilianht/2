@@ -1,0 +1,26 @@
+name: Registered for IRL Pop Up
+source: snowflake-bumble
+type: raw_sql
+rawSql: |
+  SELECT
+      USER_ID,
+      MD5(USER_ID || '-' || ROW_NUMBER() OVER (PARTITION BY USER_ID ORDER BY RANDOM())) AS EVENT_ID, -- Generate a unique event ID
+      -- Assign event location based on NUMBER_10
+      CASE MOD(NUMBER_10, 5)
+          WHEN 0 THEN 'Austin, TX'
+          WHEN 1 THEN 'Atlanta, GA'
+          WHEN 2 THEN 'New York, NY'
+          WHEN 3 THEN 'Los Angeles, CA'
+          WHEN 4 THEN 'Nashville, TN'
+          ELSE 'Chicago, IL'
+      END AS EVENT_LOCATION,
+      -- Generate event dates always in the future
+      DATEADD('day', MOD(NUMBER_365, 30) + 1, CURRENT_DATE()) AS EVENT_DATE, -- Random future date within the next 30 days
+      -- Assign signed up date as today or tomorrow
+      CASE
+          WHEN RANDOM() < 0.5 THEN CURRENT_TIMESTAMP
+          ELSE DATEADD('day', 1, CURRENT_TIMESTAMP)
+      END AS SIGNED_UP_AT
+  FROM
+      PUBLIC.USERS;
+eventTimestampColumn: SIGNED_UP_AT

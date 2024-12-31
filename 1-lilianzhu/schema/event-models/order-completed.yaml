@@ -1,0 +1,85 @@
+name: Order completed
+source: e-commerce
+type: raw_sql
+rawSql: |-
+  SELECT
+    user_id,
+    event_id,
+    -- DATEADD(DAY, - number_7, CURRENT_TIMESTAMP()) AS TIMESTAMP,
+    -- DATEADD(DAY, - number_365, CURRENT_TIMESTAMP()) AS timestamp,
+    DATEADD(DAY, - number_30, CURRENT_TIMESTAMP()) AS TIMESTAMP,
+    boolean_52 AS logged_in,
+    number_100 * 10 AS order_value,
+    user_id AS SKU,
+    CASE
+      WHEN number_7 = 0 THEN 'Android'
+      WHEN number_7 = 1 THEN 'Android'
+      WHEN number_7 = 2 THEN 'Android'
+      WHEN number_7 = 3 THEN 'iOS'
+      WHEN number_7 = 4 THEN 'iOS'
+      WHEN number_7 = 5 THEN 'iOS'
+      WHEN number_7 = 6 THEN 'iOS'
+      WHEN number_7 = 7 THEN 'iOS'
+      ELSE NULL
+    END AS OS,
+    CASE
+      WHEN number_7 = 0 THEN 'Tablet'
+      WHEN number_7 = 1 THEN 'Tablet'
+      WHEN number_7 = 2 THEN 'Tablet'
+      WHEN number_7 = 3 THEN 'Phone'
+      WHEN number_7 = 4 THEN 'Phone'
+      WHEN number_7 = 5 THEN 'Phone'
+      WHEN number_7 = 6 THEN 'Phone'
+      WHEN number_7 = 7 THEN 'Phone'
+      ELSE NULL
+    END AS DEVICE_TYPE,
+    CASE
+      WHEN number_7 = 0 THEN 'Direct'
+      WHEN number_7 = 1 THEN 'Direct'
+      WHEN number_7 = 2 THEN 'Google'
+      WHEN number_7 = 3 THEN 'Facebook'
+      WHEN number_7 = 4 THEN 'TikTok'
+      WHEN number_7 = 5 THEN 'Iterable'
+      WHEN number_7 = 6 THEN 'Iterable'
+      WHEN number_7 = 7 THEN 'Iterable'
+      ELSE NULL
+    END AS SOURCE,
+    CASE
+      WHEN number_7 = 0 THEN NULL
+      WHEN number_7 = 1 THEN NULL
+      WHEN number_7 = 2 THEN 'cpc'
+      WHEN number_7 = 3 THEN 'cpm'
+      WHEN number_7 = 4 THEN 'cpm'
+      WHEN number_7 = 5 THEN 'Email'
+      WHEN number_7 = 6 THEN 'Push'
+      WHEN number_7 = 7 THEN 'Email'
+      ELSE NULL
+    END AS MEDIUM,
+    CASE
+      WHEN number_7 IN (0, 1) THEN NULL
+      WHEN number_10 = 0 THEN 'Holiday Sale Campaign'
+      WHEN number_10 = 1 THEN 'Flash Deals Campaign'
+      WHEN number_10 = 2 THEN 'Summer Discounts Campaign'
+      WHEN number_10 = 3 THEN 'Loyalty Program Campaign'
+      WHEN number_10 = 4 THEN 'Back to School Campaign'
+      WHEN number_10 = 5 THEN 'Black Friday Campaign'
+      WHEN number_10 = 6 THEN 'Re-engagement Campaign'
+      WHEN number_10 = 7 THEN 'Abandoned Cart Campaign'
+      WHEN number_10 = 8 THEN 'New Year Promotion Campaign'
+      WHEN number_10 = 9 THEN 'Spring Savings Campaign'
+      ELSE 'General Offer Campaign'
+    END AS CAMPAIGN,
+     CASE
+      WHEN number_7 = 0 THEN 'In Store'
+      WHEN number_7 = 1 THEN 'In Store'
+      WHEN number_7 = 2 THEN 'In Store'
+      WHEN number_7 = 3 THEN 'Online'
+      WHEN number_7 = 4 THEN 'Online'
+      WHEN number_7 = 5 THEN 'Online'
+      WHEN number_7 = 6 THEN 'Online'
+      WHEN number_7 = 7 THEN 'Online'
+      ELSE NULL
+      END AS LOCATION,
+  FROM
+    PUBLIC.events
+eventTimestampColumn: TIMESTAMP

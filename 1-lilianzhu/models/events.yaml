@@ -1,0 +1,5 @@
+name: Events
+source: snowflake
+type: table
+tableName: PUBLIC.EVENTS
+primaryKey: EVENT_ID

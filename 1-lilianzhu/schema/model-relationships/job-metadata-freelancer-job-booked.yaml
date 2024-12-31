@@ -1,0 +1,11 @@
+from:
+  relationshipName: Freelancer job booked
+  slug: job-metadata
+  mergeColumns: false
+to:
+  slug: freelancer-job-booked
+  mergeColumns: false
+cardinality: 1:many
+mapping:
+  - fromColumn: SKU
+    toColumn: SKU

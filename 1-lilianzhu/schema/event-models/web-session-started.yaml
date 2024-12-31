@@ -1,0 +1,9 @@
+name: Web session started
+source: e-commerce
+type: raw_sql
+rawSql: |
+  SELECT 
+    *,
+    DATEADD(second, FLOOR(uniform(0::float, 1::float, random()) * ((end_date - start_date) * 86400)) + (start_date * 86400), CURRENT_TIMESTAMP()) as timestamp
+  FROM PUBLIC.SESSIONS
+eventTimestampColumn: TIMESTAMP

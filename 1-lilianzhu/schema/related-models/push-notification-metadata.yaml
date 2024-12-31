@@ -1,0 +1,53 @@
+name: Push Notification Metadata
+source: snowflake-bumble
+description: Transactional and promotional push notification content metadata
+type: raw_sql
+rawSql: |
+  WITH notification_content AS (
+      -- Generate content for transactional and promotional notifications
+      SELECT
+          CASE
+              WHEN MOD(ROW_NUMBER() OVER (ORDER BY RANDOM()), 2) = 0 THEN 'Transactional'
+              ELSE 'Promotional'
+          END AS CATEGORY,
+          ROW_NUMBER() OVER (ORDER BY RANDOM()) AS CONTENT_ID,
+          CASE
+              WHEN CATEGORY = 'Transactional' THEN
+                  CASE MOD(ROW_NUMBER() OVER (ORDER BY RANDOM()), 5)
+                      WHEN 0 THEN 'Set up your profile'
+                      WHEN 1 THEN 'Someone liked you!'
+                      WHEN 2 THEN 'You’ve got a match request!'
+                      WHEN 3 THEN 'Check out your daily top picks!'
+                      WHEN 4 THEN 'Add more photos for better matches'
+                  END
+              ELSE -- Promotional content
+                  CASE MOD(ROW_NUMBER() OVER (ORDER BY RANDOM()), 5)
+                      WHEN 0 THEN 'Meet your match at Bumble IRL!'
+                      WHEN 1 THEN 'You’re getting noticed! Boost your profile!'
+                      WHEN 2 THEN 'Find love this weekend with a Bumble boost!'
+                      WHEN 3 THEN 'Get 30% off premium today only!'
+                      WHEN 4 THEN 'Discover more matches with unlimited swipes!'
+                  END
+          END AS CONTENT_DELIVERED
+      FROM
+          TABLE(GENERATOR(ROWCOUNT => 10)) -- Generate a pool of 10 notifications
+  ),
+  in_app_push_notifications AS (
+      -- Associate push notifications with content
+      SELECT
+          e.EVENT_ID AS PUSH_ID,
+          nc.CATEGORY,
+          nc.CONTENT_DELIVERED
+      FROM
+          PUBLIC.EVENTS e
+      CROSS JOIN
+          notification_content nc
+      WHERE
+          ABS(HASH(e.EVENT_ID)) % 2 = nc.CONTENT_ID % 2 -- Use hash for string-based EVENT_ID distribution
+  )
+  SELECT
+      PUSH_ID,
+      CATEGORY,
+      CONTENT_DELIVERED
+  FROM
+      in_app_push_notifications;

@@ -1,0 +1,11 @@
+from:
+  relationshipName: Started subscription
+  slug: loco-users
+  mergeColumns: false
+to:
+  slug: started-subscription
+  mergeColumns: false
+cardinality: 1:many
+mapping:
+  - fromColumn: USER_ID
+    toColumn: USER_ID

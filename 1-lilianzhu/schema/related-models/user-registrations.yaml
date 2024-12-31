@@ -1,0 +1,4 @@
+name: User registrations
+source: marketplace
+type: table
+tableName: HIGHTOUCH_STORE.CREATE_ACCOUNT

@@ -1,0 +1,52 @@
+name: Product Catalog
+source: e-commerce
+type: raw_sql
+rawSql: |-
+  SELECT
+    user_id as sku,
+    number_1000 AS inventory_count,
+    CASE
+      WHEN number_10 = 0 THEN 'Health & Beauty'
+      WHEN number_10 = 1 THEN 'Health & Beauty'
+      WHEN number_10 = 2 THEN 'Health & Beauty'
+      WHEN number_10 = 3 THEN 'Vitimins & Supplements'
+      WHEN number_10 = 4 THEN 'Food & Drink'
+      WHEN number_10 = 5 THEN 'Food & Drink'
+      WHEN number_10 = 6 THEN 'Vitimins & Supplements'
+      WHEN number_10 = 7 THEN 'Vitimins & Supplements'
+      WHEN number_10 = 8 THEN 'Vitimins & Supplements'
+      WHEN number_10 = 9 THEN 'Weight Loss'
+      WHEN number_10 = 10 THEN 'Weight Loss'
+      ELSE NULL
+    END AS Category,
+      CASE
+      WHEN number_10 = 0 THEN 'H&B'
+      WHEN number_10 = 1 THEN 'Dr Collagen'
+      WHEN number_10 = 2 THEN 'Wild'
+      WHEN number_10 = 3 THEN 'H&B'
+      WHEN number_10 = 4 THEN 'H&B'
+      WHEN number_10 = 5 THEN 'Athletic Greens'
+      WHEN number_10 = 6 THEN 'Zuki'
+      WHEN number_10 = 7 THEN 'Sambookol'
+      WHEN number_10 = 8 THEN 'Space Goods'
+      WHEN number_10 = 9 THEN 'H&B'
+      WHEN number_10 = 10 THEN 'Other'
+      ELSE NULL
+    END AS brand,
+    CASE
+      WHEN number_10 = 0 THEN 'Floss Lipstick'
+      WHEN number_10 = 1 THEN 'Super Serum Silk Foundation'
+      WHEN number_10 = 2 THEN 'Mystic Romance Palette'
+      WHEN number_10 = 3 THEN 'Liquid Lipstick'
+      WHEN number_10 = 4 THEN 'Revealer Concealer'
+      WHEN number_10 = 5 THEN 'Sugar Lip Treatment'
+      WHEN number_10 = 6 THEN 'Rose Face Mask'
+      WHEN number_10 = 7 THEN 'Floss Lipstick'
+      WHEN number_10 = 8 THEN 'Floss Lipstick'
+      WHEN number_10 = 9 THEN 'Floss Lipstick'
+      WHEN number_10 = 10 THEN 'Floss Lipstick'
+      ELSE NULL
+    END AS Product_name,
+
+  FROM
+    PUBLIC.USERS

@@ -1,0 +1,69 @@
+name: Freelancer profile attributes
+source: marketplace
+type: raw_sql
+rawSql: |
+  WITH profile_attributes AS (
+      SELECT
+          USER_ID,
+          -- Assign a random job category based on NUMBER_10
+          CASE MOD(NUMBER_10, 5)
+              WHEN 0 THEN 'Web Development'
+              WHEN 1 THEN 'Graphic Design'
+              WHEN 2 THEN 'Content Writing'
+              WHEN 3 THEN 'Digital Marketing'
+              ELSE 'Data Analysis'
+          END AS JOB_CATEGORY,
+          
+          -- Assign skill level based on BOOLEAN_34
+          CASE
+              WHEN BOOLEAN_34 THEN 'Expert'
+              ELSE 'Intermediate'
+          END AS SKILL_LEVEL,
+          
+          -- Calculate years of experience based on NUMBER_365
+          CASE 
+              WHEN MOD(NUMBER_365, 15) < 1 THEN 1
+              ELSE MOD(NUMBER_365, 15) -- Randomize between 1 and 15 years
+          END AS YEARS_OF_EXPERIENCE,
+          
+          -- Assign availability status based on BOOLEAN_52
+          CASE
+              WHEN BOOLEAN_52 THEN 'Available'
+              ELSE 'Unavailable'
+          END AS AVAILABILITY,
+          
+          -- Assign a preferred project size based on NUMBER_100
+          CASE
+              WHEN MOD(NUMBER_100, 3) = 0 THEN 'Small (Under $500)'
+              WHEN MOD(NUMBER_100, 3) = 1 THEN 'Medium ($500 - $5,000)'
+              ELSE 'Large ($5,000 and above)'
+          END AS PREFERRED_PROJECT_SIZE,
+          
+          -- Assign industries of interest based on BOOLEAN_87 and NUMBER_7
+          CASE
+              WHEN BOOLEAN_87 AND MOD(NUMBER_7, 4) = 0 THEN 'Technology'
+              WHEN BOOLEAN_87 AND MOD(NUMBER_7, 4) = 1 THEN 'Healthcare'
+              WHEN BOOLEAN_87 AND MOD(NUMBER_7, 4) = 2 THEN 'Retail'
+              WHEN BOOLEAN_87 AND MOD(NUMBER_7, 4) = 3 THEN 'Education'
+              ELSE 'Other'
+          END AS INDUSTRIES_OF_INTEREST,
+          
+          -- Add portfolio visibility preference based on BOOLEAN_34
+          CASE
+              WHEN BOOLEAN_34 THEN 'Public'
+              ELSE 'Private'
+          END AS PORTFOLIO_VISIBILITY
+      FROM
+          PUBLIC.EVENTS
+  )
+  SELECT
+      USER_ID,
+      JOB_CATEGORY,
+      SKILL_LEVEL,
+      YEARS_OF_EXPERIENCE,
+      AVAILABILITY,
+      PREFERRED_PROJECT_SIZE,
+      INDUSTRIES_OF_INTEREST,
+      PORTFOLIO_VISIBILITY
+  FROM
+      profile_attributes;

@@ -1,0 +1,39 @@
+name: Push delivered
+source: snowflake-bumble
+description: Engagement with push channel
+type: raw_sql
+rawSql: |-
+  SELECT
+    user_id,
+    event_id,
+    -- DATEADD(DAY, - number_7, CURRENT_TIMESTAMP()) AS TIMESTAMP,
+    DATEADD(DAY, - number_365, CURRENT_TIMESTAMP()) AS timestamp,
+    -- DATEADD(DAY, - number_30, CURRENT_TIMESTAMP()) AS timestamp,
+    boolean_52 AS clicked_cta,
+    boolean_87 AS email_opened,
+    boolean_34 AS mobile_session,
+    CASE
+      WHEN number_7 = 0 THEN 'Marketing'
+      WHEN number_7 = 1 THEN 'Pricing'
+      WHEN number_7 = 2 THEN 'Safety & Wellbeing'
+      WHEN number_7 = 3 THEN 'Support'
+      WHEN number_7 = 4 THEN 'Support'
+      WHEN number_7 = 5 THEN 'Pricing'
+      WHEN number_7 = 6 THEN 'Marketing'
+      WHEN number_7 = 7 THEN 'Marketing'
+      ELSE NULL
+    END AS EMAIL_SENT_FROM,
+    CASE
+      WHEN number_7 = 0 THEN 'RetargetingCampaignMarch'
+      WHEN number_7 = 1 THEN 'RetargetingCampaignApril'
+      WHEN number_7 = 2 THEN 'RetargetingCampaignJanuary'
+      WHEN number_7 = 3 THEN 'Webinar1'
+      WHEN number_7 = 4 THEN 'RetentionCampaignMarch'
+      WHEN number_7 = 5 THEN 'Webinar2'
+      WHEN number_7 = 6 THEN 'Webinar3'
+      WHEN number_7 = 6 THEN 'Webinar3'
+      ELSE NULL
+    END AS CAMPAIGN,
+  FROM
+    PUBLIC.events
+eventTimestampColumn: TIMESTAMP

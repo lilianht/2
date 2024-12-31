@@ -1,0 +1,5 @@
+name: Testing Interaction Model
+source: b2-b-accounts
+type: raw_sql
+rawSql: select * from lilian.public.b2b_contact_events
+eventTimestampColumn: TIMESTAMP

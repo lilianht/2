@@ -1,0 +1,11 @@
+from:
+  relationshipName: Add item to cart
+  slug: customers
+  mergeColumns: false
+to:
+  slug: add-item-to-cart
+  mergeColumns: false
+cardinality: 1:many
+mapping:
+  - fromColumn: USER_ID
+    toColumn: USER_ID

@@ -1,0 +1,11 @@
+from:
+  relationshipName: Product Affinity Scores
+  slug: customers
+  mergeColumns: false
+to:
+  slug: product-affinity-scores
+  mergeColumns: false
+cardinality: 1:many
+mapping:
+  - fromColumn: USER_ID
+    toColumn: USER_ID

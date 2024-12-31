@@ -1,0 +1,107 @@
+name: '  🍏 Customers'
+source: e-commerce
+type: raw_sql
+rawSql: |-
+  SELECT
+    -- Ignore this section below
+    ROW_NUMBER() OVER (
+      ORDER BY
+        RANDOM(1)
+    ) AS PRIMARY_KEY,
+    ROW_NUMBER() OVER (
+      ORDER BY
+        RANDOM(1)
+    ) || '-' || EMAIL AS EMAIL,
+    -- Ignore the section above
+    user_id,
+    first_name,
+    last_name,
+    STATE,
+    ip_address,
+    gender,
+    account_id,
+    boolean_52 AS subscribed,
+    boolean_87 AS loyalty_member,
+    CASE
+      WHEN number_10 = 0 THEN 'SBronze'
+      WHEN number_10 = 1 THEN 'Bronze'
+      WHEN number_10 = 2 THEN 'Bronze'
+      WHEN number_10 = 3 THEN 'Bronze'
+      WHEN number_10 = 4 THEN 'Bronze'
+      WHEN number_10 = 5 THEN 'Silver'
+      WHEN number_10 = 6 THEN 'Silver'
+      WHEN number_10 = 7 THEN 'Silver'
+      WHEN number_10 = 8 THEN 'Gold'
+      WHEN number_10 = 9 THEN 'Gold'
+      WHEN number_10 = 10 THEN 'Platinum'
+      ELSE NULL
+    END AS VIP_tier,
+    boolean_34 AS churned,
+    boolean_52 AS email_consent,
+    boolean_52 AS ads_consent,
+    DATEADD(DAY, - number_7, CURRENT_TIMESTAMP()) AS last_logged_in_date,
+    DATEADD(DAY, - number_30, CURRENT_TIMESTAMP()) AS last_purchase_date,
+    DATEADD(DAY, - number_365, CURRENT_TIMESTAMP()) AS first_purchase_date,
+    number_10 AS number_support_tickets,
+    number_100 AS intent_score,
+    number_1000 AS LTV,
+    number_1000 AS rewards_balance,
+    CASE
+      WHEN number_10 = 0 THEN 'Sports Lover'
+      WHEN number_10 = 1 THEN 'Sports Lover'
+      WHEN number_10 = 2 THEN 'Sports Lover'
+      WHEN number_10 = 3 THEN 'Sports Lover'
+      WHEN number_10 = 4 THEN 'Sports Lover'
+      WHEN number_10 = 5 THEN 'Sports Lover'
+      WHEN number_10 = 6 THEN 'Sports Lover'
+      WHEN number_10 = 7 THEN 'Sports Lover'
+      WHEN number_10 = 8 THEN 'Sports Lover'
+      WHEN number_10 = 9 THEN 'Sports Lover'
+      WHEN number_10 = 10 THEN 'Sports Lover'
+      ELSE NULL
+    END AS BRAND_LOYALTY,
+      CASE
+      WHEN number_10 = 0 THEN 'Treatment A'
+      WHEN number_10 = 1 THEN 'Treatment A'
+      WHEN number_10 = 2 THEN 'Treatment B'
+      WHEN number_10 = 3 THEN 'Treatment A'
+      WHEN number_10 = 4 THEN 'Treatment A'
+      WHEN number_10 = 5 THEN 'Treatment A'
+      WHEN number_10 = 6 THEN 'Treatment A'
+      WHEN number_10 = 7 THEN 'Treatment A'
+      WHEN number_10 = 8 THEN 'Treatment B'
+      WHEN number_10 = 9 THEN 'Holdout'
+      WHEN number_10 = 10 THEN 'Holdout'
+      ELSE NULL
+    END AS SPLIT_COLUMN,
+        CASE
+      WHEN number_7 = 0 THEN 'Facebook'
+      WHEN number_7 = 1 THEN 'Facebook'
+      WHEN number_7 = 2 THEN 'Google'
+      WHEN number_7 = 3 THEN 'Instagram'
+      WHEN number_7 = 4 THEN 'TikTok'
+      WHEN number_7 = 5 THEN 'TikTok'
+      WHEN number_7 = 6 THEN 'Facebook'
+      WHEN number_7 = 7 THEN 'Facebook'
+      ELSE NULL
+    END AS INITIAL_SOURCE,
+        CASE
+      WHEN number_100 = 0 THEN 1
+      WHEN number_100 = 1 THEN 1
+      ELSE 0
+    END AS global_holdout,
+  FROM
+    PUBLIC.USERS
+    CROSS JOIN (
+      -- This section controls how many times the users model is multiplied. ie 5000 users x 6 = 30k users
+      VALUES
+        (1),
+        (2),
+        (3),
+        (4),
+        (5),
+        (6)
+    ) AS multiplier (REPEAT)
+primaryKey: PRIMARY_KEY
+primaryLabel: FIRST_NAME
+secondaryLabel: EMAIL

@@ -1,0 +1,17 @@
+name: Brand Portfolio
+source: snowflake-bumble
+description: >-
+  Related model to understand if one user is also using other apps under the
+  company's portfolio.
+type: raw_sql
+rawSql: |
+  SELECT
+      USER_ID,
+      TRUE AS Brand_1, -- All users have Bumble set to TRUE
+      BOOLEAN_34 AS Brand_2, -- Bumble for Friends based on BOOLEAN_34
+      BOOLEAN_52 AS Brand_3, -- Badoo based on BOOLEAN_52
+      BOOLEAN_34 AS Brand_4, -- Fruitz based on BOOLEAN_34
+      BOOLEAN_34 AS Brand_5, -- Official based on BOOLEAN_34
+      BOOLEAN_34 AS Brand_6
+  FROM
+      PUBLIC.EVENTS;

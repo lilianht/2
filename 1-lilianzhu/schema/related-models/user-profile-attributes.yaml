@@ -1,0 +1,71 @@
+name: User profile attributes
+source: snowflake-bumble
+description: >-
+  Preferences chosen by users while filling out interests, likes, dislikes, and
+  goals for using your app.
+type: raw_sql
+rawSql: |
+  SELECT
+      USER_ID,
+      
+      -- Gender (using NUMBER_10)
+      CASE
+          WHEN MOD(NUMBER_10, 3) = 0 THEN 'Woman'
+          WHEN MOD(NUMBER_10, 3) = 1 THEN 'Man'
+          ELSE 'Nonbinary'
+      END AS GENDER,
+      
+      -- Motivation (using NUMBER_7)
+      CASE
+          WHEN MOD(NUMBER_7, 3) = 0 THEN 'Date'
+          WHEN MOD(NUMBER_7, 3) = 1 THEN 'BFF'
+          ELSE 'Bizz'
+      END AS MOTIVATION,
+      
+      -- Want to meet (using NUMBER_30)
+      CASE
+          WHEN MOD(NUMBER_30, 3) = 0 THEN 'Men'
+          WHEN MOD(NUMBER_30, 3) = 1 THEN 'Women'
+          ELSE 'Nonbinary'
+      END AS WANT_TO_MEET,
+      
+      -- Goal (using NUMBER_7)
+      CASE
+          WHEN NUMBER_7 = 1 THEN 'Long-term relationship'
+          WHEN NUMBER_7 = 2 THEN 'Life partner'
+          WHEN NUMBER_7 = 3 THEN 'Fun & casual dates'
+          WHEN NUMBER_7 = 4 THEN 'Intimacy without commitment'
+          WHEN NUMBER_7 = 5 THEN 'Marriage'
+          WHEN NUMBER_7 = 6 THEN 'Ethical non-monogamy'
+          ELSE 'Exploration'
+      END AS GOAL,
+      
+      -- Height (using NUMBER_100, transformed to realistic heights)
+      CAST(150 + MOD(NUMBER_100, 51) AS STRING) || ' cm' AS HEIGHT,
+      
+      -- Interests (concatenated simple string instead of OBJECT_CONSTRUCT)
+      CONCAT(
+          CASE WHEN MOD(NUMBER_10, 10) = 0 THEN 'Crafts' WHEN MOD(NUMBER_10, 10) = 1 THEN 'Skiing' ELSE 'Feminism' END, ', ',
+          CASE WHEN MOD(NUMBER_30, 10) = 0 THEN 'Wine' WHEN MOD(NUMBER_30, 10) = 1 THEN 'Dancing' ELSE 'Cats' END, ', ',
+          CASE WHEN MOD(NUMBER_100, 10) = 0 THEN 'Art' WHEN MOD(NUMBER_100, 10) = 1 THEN 'Museums' ELSE 'Gardening' END, ', ',
+          CASE WHEN MOD(NUMBER_7, 10) = 0 THEN 'R&B' WHEN MOD(NUMBER_7, 10) = 1 THEN 'Tennis' ELSE 'Writing' END, ', ',
+          CASE WHEN MOD(NUMBER_365, 10) = 0 THEN 'Country' WHEN MOD(NUMBER_365, 10) = 1 THEN 'Baking' ELSE 'Yoga' END
+      ) AS INTERESTS,
+      
+      -- Values (concatenated simple string instead of OBJECT_CONSTRUCT)
+      CONCAT(
+          CASE WHEN MOD(NUMBER_10, 5) = 0 THEN 'Ambition' WHEN MOD(NUMBER_10, 5) = 1 THEN 'Confidence' ELSE 'Empathy' END, ', ',
+          CASE WHEN MOD(NUMBER_30, 5) = 0 THEN 'Generosity' WHEN MOD(NUMBER_30, 5) = 1 THEN 'Humor' ELSE 'Kindness' END, ', ',
+          CASE WHEN MOD(NUMBER_100, 5) = 0 THEN 'Openness' WHEN MOD(NUMBER_100, 5) = 1 THEN 'Optimism' ELSE 'Playfulness' END
+      ) AS PERSONALITY_TRAITS,
+      
+      -- Lifestyle (simple yes/no columns)
+      CASE WHEN BOOLEAN_34 THEN 'Yes' ELSE 'No' END AS DRINKING,
+      CASE WHEN BOOLEAN_52 THEN 'Yes' ELSE 'No' END AS SMOKING,
+      
+      -- Future plans (simple yes/no columns)
+      CASE WHEN BOOLEAN_87 THEN 'Yes' ELSE 'No' END AS HAVE_KIDS,
+      CASE WHEN BOOLEAN_34 THEN 'Yes' ELSE 'No' END AS WANT_KIDS
+
+  FROM
+      PUBLIC.EVENTS;

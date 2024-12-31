@@ -1,0 +1,11 @@
+from:
+  relationshipName: User registrations
+  slug: individuals
+  mergeColumns: false
+to:
+  slug: user-registrations
+  mergeColumns: false
+cardinality: '1:1'
+mapping:
+  - fromColumn: EMAIL
+    toColumn: EMAIL

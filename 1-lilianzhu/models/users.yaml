@@ -1,0 +1,5 @@
+name: Users
+source: snowflake
+type: raw_sql
+rawSql: select * from public.users
+primaryKey: USER_ID

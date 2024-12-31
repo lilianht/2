@@ -1,0 +1,11 @@
+from:
+  relationshipName: Viewed product
+  slug: product-catalog
+  mergeColumns: false
+to:
+  slug: viewed-product
+  mergeColumns: false
+cardinality: '1:1'
+mapping:
+  - fromColumn: SKU
+    toColumn: SKU

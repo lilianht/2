@@ -1,0 +1,11 @@
+from:
+  relationshipName: Web session started
+  slug: customers
+  mergeColumns: false
+to:
+  slug: web-session-started
+  mergeColumns: false
+cardinality: 1:many
+mapping:
+  - fromColumn: PRIMARY_KEY
+    toColumn: USER_ID

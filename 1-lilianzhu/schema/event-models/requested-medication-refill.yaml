@@ -1,0 +1,8 @@
+name: Requested medication refill
+source: Snowflake-75068
+description: Patients who requested medication refill
+type: raw_sql
+rawSql: >-
+  select * from lilian.public.portal_events where event_type = 'Requested
+  medication refill'
+eventTimestampColumn: TIMESTAMP
