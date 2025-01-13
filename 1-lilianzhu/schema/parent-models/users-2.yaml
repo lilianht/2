@@ -1,0 +1,7 @@
+name: Users
+source: snowflake-lilian
+type: raw_sql
+rawSql: select * from upworkusers;
+primaryKey: USERID
+primaryLabel: ROLE
+secondaryLabel: EMAIL
