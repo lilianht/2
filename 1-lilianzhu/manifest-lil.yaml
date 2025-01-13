@@ -15,6 +15,8 @@ sources:
     name: BigQuery
     type: bigquery
 destinations:
+  undefined-2ed35-fb9c9:
+    type: facebookConversions
   undefined-3434a-d89a4:
     type: shopify
   undefined-eee5d-c908b:
@@ -125,8 +127,6 @@ destinations:
     type: sfmc
   undefined-08ce6-478b7:
     type: snapchat
-  undefined-2ed35-fb9c9:
-    type: facebookConversions
   undefined-a1430-3735e:
     type: zuora
   undefined-c485a-5b715:
