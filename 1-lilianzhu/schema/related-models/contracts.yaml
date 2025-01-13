@@ -1,0 +1,4 @@
+name: Contracts
+source: snowflake-lilian
+type: raw_sql
+rawSql: select * from upworkcontracts
