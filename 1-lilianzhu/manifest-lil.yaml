@@ -15,6 +15,9 @@ sources:
     name: BigQuery
     type: bigquery
 destinations:
+  hightouch-personalization-api:
+    name: Hightouch Personalization API
+    type: hightouch-personalization-api
   undefined-2ed35-fb9c9:
     type: facebookConversions
   undefined-3434a-d89a4:
