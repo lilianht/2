@@ -24,6 +24,7 @@ rawSql: |
   )
   SELECT
     u.email AS client_email,
+    a.client_id AS clientuserid,
     ARRAY_AGG(
       OBJECT_CONSTRUCT(
         'contract_id', d.contractid,
@@ -35,5 +36,5 @@ rawSql: |
   FROM ActiveContracts a
   JOIN lilian.public.upworkusers u ON a.client_id = u.userid
   JOIN ContractDetails d ON a.client_id = d.client_id
-  GROUP BY u.email;
+  GROUP BY u.email, a.client_id;
 primaryKey: CLIENT_EMAIL
