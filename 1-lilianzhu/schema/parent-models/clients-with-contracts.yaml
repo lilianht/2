@@ -1,0 +1,42 @@
+name: Clients with contracts
+source: snowflake-lilian
+type: raw_sql
+rawSql: |
+  WITH ActiveContracts AS (
+    SELECT
+      c.clientuserid AS client_id,
+      COUNT(*) AS active_contract_count
+    FROM lilian.public.upworkcontracts c
+    WHERE c.status = 'active'
+    GROUP BY c.clientuserid
+    HAVING COUNT(*) > 3
+  ),
+  ContractDetails AS (
+    SELECT
+      c.contractid,
+      c.clientuserid AS client_id,
+      u.name AS freelancer_name,
+      DATEDIFF(DAY, c.contract_start, CURRENT_DATE) AS contract_duration_days,
+      c.payment_outstanding AS payment_due
+    FROM lilian.public.upworkcontracts c
+    INNER JOIN lilian.public.upworkusers u ON c.freelanceruserid = u.userid
+    WHERE c.status = 'active'
+  )
+  SELECT
+    u.email AS client_email,
+    u.userid AS user_id,
+    ARRAY_AGG(
+      OBJECT_CONSTRUCT(
+        'contract_id', d.contractid,
+        'freelancer_name', d.freelancer_name,
+        'contract_duration_days', d.contract_duration_days,
+        'payment_due', CASE WHEN d.payment_due THEN 'Yes' ELSE 'No' END
+      )
+    ) AS active_contract_details
+  FROM ActiveContracts a
+  JOIN lilian.public.upworkusers u ON a.client_id = u.userid
+  JOIN ContractDetails d ON a.client_id = d.client_id
+  GROUP BY u.email, u.userid;
+primaryKey: USER_ID
+primaryLabel: USER_ID
+secondaryLabel: CLIENT_EMAIL
