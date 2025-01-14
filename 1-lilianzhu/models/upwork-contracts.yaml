@@ -1,4 +1,4 @@
-name: 'pAPI - All Clients '
+name: 'pAPI: Clients and all their contracts'
 source: snowflake-lilian
 type: raw_sql
 rawSql: |
