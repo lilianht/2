@@ -1,4 +1,4 @@
-name: Upwork Contracts
+name: Upwork Contracts per Client
 source: snowflake-lilian
 type: table
 tableName: PUBLIC.UPWORKCONTRACTS
