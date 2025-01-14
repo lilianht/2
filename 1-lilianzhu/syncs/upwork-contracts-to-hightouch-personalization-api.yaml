@@ -1,0 +1,32 @@
+model: upwork-contracts
+destination: hightouch-personalization-api
+description: Contracts sync to pAPI
+config:
+  dataset: Contracts
+  mappings:
+    - to: CLIENTUSERID
+      from: CLIENTUSERID
+      type: standard
+    - to: CONTRACT_START
+      from: CONTRACT_START
+      type: standard
+    - to: CONTRACTID
+      from: CONTRACTID
+      type: standard
+    - to: FREELANCERUSERID
+      from: FREELANCERUSERID
+      type: standard
+    - to: PAYMENT_OUTSTANDING
+      from: PAYMENT_OUTSTANDING
+      type: standard
+    - to: STATUS
+      from: STATUS
+      type: standard
+  configVersion: 0
+  autoSyncColumns: false
+  externalIdMapping:
+    to: id
+    from: CLIENTUSERID
+schedule:
+  type: manual
+schedulePaused: false
