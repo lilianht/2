@@ -1,0 +1,22 @@
+name: Upwork Users
+source: snowflake-lilian
+type: raw_sql
+rawSql: |
+  SELECT
+    USER_ID AS userid,
+    FIRST_NAME AS name,
+    EMAIL AS email,
+    CASE
+      WHEN BOOLEAN_34 THEN 'freelancer'
+      ELSE 'client'
+    END AS role,
+    CASE
+      WHEN NUMBER_7 BETWEEN 1 AND 3 THEN 'Sales'
+      WHEN NUMBER_7 BETWEEN 4 AND 6 THEN 'Marketing'
+      ELSE 'Web, Mobile & Software Development'
+    END AS skill_category
+  FROM
+    Public.users;
+primaryKey: USERID
+primaryLabel: NAME
+secondaryLabel: EMAIL
