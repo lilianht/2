@@ -1,0 +1,14 @@
+name: Propensity Modeling
+source: snowflake-lilian
+type: raw_sql
+rawSql: |
+  SELECT
+    USER_ID AS userid,
+    -- LTV directly based on number_1000 column
+    NUMBER_1000 AS LTV,
+    -- Likelihood to adopt directly based on number_100 column
+    NUMBER_100 AS likelihood_to_adopt,
+    -- Churn propensity is inversely calculated from likelihood_to_adopt
+    100 - NUMBER_100 AS churn_propensity
+  FROM
+    Public.users;
