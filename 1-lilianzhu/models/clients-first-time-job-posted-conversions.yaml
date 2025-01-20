@@ -4,32 +4,39 @@ type: raw_sql
 rawSql: |
   WITH EventRanking AS (
     SELECT
-      USER_ID AS userid,
-      EVENT_ID AS event_id,
-      DATEADD(DAY, - NUMBER_7, CURRENT_TIMESTAMP()) AS event_timestamp,
+      e.USER_ID AS userid,
+      e.EVENT_ID AS event_id,
+      DATEADD(DAY, - e.NUMBER_7, CURRENT_TIMESTAMP()) AS event_timestamp,
       CASE
-        WHEN NUMBER_7 = 0 THEN 'Job posted'
-        WHEN NUMBER_7 = 1 THEN 'Job proposal submitted'
-        WHEN NUMBER_7 = 2 THEN 'User registered'
-        WHEN NUMBER_7 = 3 THEN 'Payment issued'
-        WHEN NUMBER_7 = 4 THEN 'Job posted'
-        WHEN NUMBER_7 = 5 THEN 'Job proposal submitted'
-        WHEN NUMBER_7 = 6 THEN 'User registered'
-        WHEN NUMBER_7 = 7 THEN 'Payment issued'
+        WHEN e.NUMBER_7 = 0 THEN 'Job posted'
+        WHEN e.NUMBER_7 = 1 THEN 'Job proposal submitted'
+        WHEN e.NUMBER_7 = 2 THEN 'User registered'
+        WHEN e.NUMBER_7 = 3 THEN 'Payment issued'
+        WHEN e.NUMBER_7 = 4 THEN 'Job posted'
+        WHEN e.NUMBER_7 = 5 THEN 'Job proposal submitted'
+        WHEN e.NUMBER_7 = 6 THEN 'User registered'
+        WHEN e.NUMBER_7 = 7 THEN 'Payment issued'
         ELSE NULL
       END AS event_name,
-      ROW_NUMBER() OVER (PARTITION BY USER_ID ORDER BY DATEADD(DAY, - NUMBER_7, CURRENT_TIMESTAMP())) AS row_num
+      u.IP_ADDRESS AS ip_address,
+      u.EMAIL AS user_email,
+      ROW_NUMBER() OVER (PARTITION BY e.USER_ID ORDER BY DATEADD(DAY, - e.NUMBER_7, CURRENT_TIMESTAMP())) AS row_num
     FROM
-      PUBLIC.events
+      PUBLIC.events e
+    INNER JOIN
+      PUBLIC.users u
+      ON e.USER_ID = u.USER_ID
     WHERE
-      DATEADD(DAY, - NUMBER_365, CURRENT_TIMESTAMP()) >= DATEADD(DAY, -7, CURRENT_TIMESTAMP())
-      AND (NUMBER_7 = 0 OR NUMBER_7 = 4) -- Filter only for 'Job posted' events
+      DATEADD(DAY, - e.NUMBER_365, CURRENT_TIMESTAMP()) >= DATEADD(DAY, -7, CURRENT_TIMESTAMP())
+      AND (e.NUMBER_7 = 0 OR e.NUMBER_7 = 4) -- Filter only for 'Job posted' events
   )
   SELECT
     userid,
     event_id,
     event_timestamp,
-    event_name
+    event_name,
+    ip_address,
+    user_email
   FROM
     EventRanking
   WHERE
