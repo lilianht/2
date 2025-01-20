@@ -1,4 +1,4 @@
-name: Users
+name: '[Old Users]'
 source: snowflake-lilian
 type: raw_sql
 rawSql: select * from upworkusers;
