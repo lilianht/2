@@ -1,8 +1,9 @@
 from:
   relationshipName: Payment issued
-  slug: users-2
+  slug: upwork-users
   mergeColumns: false
 to:
+  relationshipName: Users
   slug: payment-issued
   mergeColumns: false
 cardinality: 1:many
