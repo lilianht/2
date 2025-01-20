@@ -7,8 +7,8 @@ rawSql: |
     FIRST_NAME AS name,
     EMAIL AS email,
     CASE
-      WHEN BOOLEAN_34 THEN 'freelancer'
-      ELSE 'client'
+      WHEN BOOLEAN_34 THEN 'client'
+      ELSE 'freelancer'
     END AS role,
     CASE
       WHEN NUMBER_7 BETWEEN 1 AND 3 THEN 'Sales'
