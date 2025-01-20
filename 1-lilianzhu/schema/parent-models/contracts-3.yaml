@@ -23,10 +23,11 @@ rawSql: |
     SELECT
       ROW_NUMBER() OVER (ORDER BY e.EVENT_ID) AS contractid, -- Generates unique, sequential contract IDs
       e.USER_ID AS clientuserid,
+      u1.email AS clientemail, -- Fetches the email associated with the client
       DATEADD(DAY, -e.NUMBER_365, CURRENT_DATE()) AS contract_start,
       DATEADD(DAY, 45, DATEADD(DAY, -e.NUMBER_365, CURRENT_DATE())) AS contract_end,
-      u.userid AS freelanceruserid,
-      u.name AS freelancerusername,
+      u2.userid AS freelanceruserid,
+      u2.name AS freelancerusername,
       CASE
         WHEN e.BOOLEAN_87 THEN 'active'
         ELSE 'closed'
@@ -35,13 +36,17 @@ rawSql: |
       ROW_NUMBER() OVER (PARTITION BY e.USER_ID ORDER BY e.EVENT_ID) AS contract_index
     FROM
       Public.events e
-    INNER JOIN Users u
-      ON e.USER_ID != u.userid
-      AND u.role = 'freelancer'
+    INNER JOIN Users u1
+      ON e.USER_ID = u1.userid
+      AND u1.role = 'client' -- Ensure we fetch only clients
+    INNER JOIN Users u2
+      ON e.USER_ID != u2.userid
+      AND u2.role = 'freelancer' -- Ensure we fetch only freelancers
   )
   SELECT
     contractid,
     clientuserid,
+    clientemail,
     contract_start,
     contract_end,
     freelanceruserid,
