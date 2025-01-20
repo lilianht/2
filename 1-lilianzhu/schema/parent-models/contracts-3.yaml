@@ -1,0 +1,57 @@
+name: Contracts
+source: snowflake-lilian
+type: raw_sql
+rawSql: |
+  WITH Users AS (
+    SELECT
+      USER_ID AS userid,
+      FIRST_NAME AS name,
+      EMAIL AS email,
+      CASE
+        WHEN BOOLEAN_34 THEN 'client'
+        ELSE 'freelancer'
+      END AS role,
+      CASE
+        WHEN NUMBER_7 BETWEEN 1 AND 3 THEN 'Sales'
+        WHEN NUMBER_7 BETWEEN 4 AND 6 THEN 'Marketing'
+        ELSE 'Web, Mobile & Software Development'
+      END AS skill_category
+    FROM
+      Public.users
+  ),
+  Contracts AS (
+    SELECT
+      ROW_NUMBER() OVER (ORDER BY e.EVENT_ID) AS contractid, -- Generates unique, sequential contract IDs
+      e.USER_ID AS clientuserid,
+      DATEADD(DAY, -e.NUMBER_365, CURRENT_DATE()) AS contract_start,
+      DATEADD(DAY, 45, DATEADD(DAY, -e.NUMBER_365, CURRENT_DATE())) AS contract_end,
+      u.userid AS freelanceruserid,
+      u.name AS freelancerusername,
+      CASE
+        WHEN e.BOOLEAN_87 THEN 'active'
+        ELSE 'closed'
+      END AS status,
+      e.BOOLEAN_34 AS payment_outstanding,
+      ROW_NUMBER() OVER (PARTITION BY e.USER_ID ORDER BY e.EVENT_ID) AS contract_index
+    FROM
+      Public.events e
+    INNER JOIN Users u
+      ON e.USER_ID != u.userid
+      AND u.role = 'freelancer'
+  )
+  SELECT
+    contractid,
+    clientuserid,
+    contract_start,
+    contract_end,
+    freelanceruserid,
+    freelancerusername,
+    status,
+    payment_outstanding
+  FROM
+    Contracts
+  WHERE
+    contract_index <= 4 -- Ensures 0–4 contracts per client
+primaryKey: CONTRACTID
+primaryLabel: CONTRACTID
+secondaryLabel: CONTRACT_START
