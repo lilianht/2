@@ -1,0 +1,7 @@
+name: Contracts
+source: snowflake-lilian
+type: table
+tableName: PUBLIC.UPWORKCONTRACTS
+primaryKey: CONTRACTID
+primaryLabel: CONTRACTID
+secondaryLabel: STATUS
