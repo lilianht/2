@@ -1,0 +1,11 @@
+from:
+  relationshipName: Users
+  slug: contracts-2
+  mergeColumns: false
+to:
+  slug: users-2
+  mergeColumns: false
+cardinality: many:1
+mapping:
+  - fromColumn: CLIENTUSERID
+    toColumn: USERID
