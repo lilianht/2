@@ -1,0 +1,11 @@
+from:
+  relationshipName: Payment issued
+  slug: users-2
+  mergeColumns: false
+to:
+  slug: payment-issued
+  mergeColumns: false
+cardinality: 1:many
+mapping:
+  - fromColumn: USERID
+    toColumn: USER_ID
