@@ -29,6 +29,7 @@ rawSql: |
       u2.userid AS freelanceruserid,
       u2.name AS freelancerusername,
       u2.email AS freelancer_email, -- Fetches the email associated with the freelancer
+      DATEADD(DAY, -e.NUMBER_30, CURRENT_DATE()) AS date, -- Simple "date" column
       CASE
         WHEN e.BOOLEAN_87 THEN 'active'
         ELSE 'closed'
@@ -51,6 +52,7 @@ rawSql: |
     clientemail,
     contract_start,
     contract_end,
+    date, -- Include the new date column
     freelanceruserid,
     freelancerusername,
     freelancer_email,
