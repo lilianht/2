@@ -24,8 +24,8 @@ rawSql: |
       ROW_NUMBER() OVER (ORDER BY e.EVENT_ID) AS contractid, -- Generates unique, sequential contract IDs
       e.USER_ID AS clientuserid,
       u1.email AS clientemail, -- Fetches the email associated with the client
-      DATEADD(DAY, -e.NUMBER_365, CURRENT_DATE()) AS contract_start,
-      DATEADD(DAY, 45, DATEADD(DAY, -e.NUMBER_365, CURRENT_DATE())) AS contract_end,
+      DATEADD(DAY, -(e.NUMBER_365 + ROW_NUMBER() OVER (PARTITION BY e.USER_ID ORDER BY e.EVENT_ID)), CURRENT_DATE()) AS contract_start,
+      DATEADD(DAY, 45, DATEADD(DAY, -(e.NUMBER_365 + ROW_NUMBER() OVER (PARTITION BY e.USER_ID ORDER BY e.EVENT_ID)), CURRENT_DATE())) AS contract_end,
       u2.userid AS freelanceruserid,
       u2.name AS freelancerusername,
       u2.email AS freelancer_email, -- Fetches the email associated with the freelancer
