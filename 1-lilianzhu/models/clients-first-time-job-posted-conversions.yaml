@@ -1,0 +1,37 @@
+name: Clients' First Time job_posted conversions
+source: snowflake-lilian
+type: raw_sql
+rawSql: |
+  WITH EventRanking AS (
+    SELECT
+      USER_ID AS userid,
+      EVENT_ID AS event_id,
+      DATEADD(DAY, - NUMBER_7, CURRENT_TIMESTAMP()) AS event_timestamp,
+      CASE
+        WHEN NUMBER_7 = 0 THEN 'Job posted'
+        WHEN NUMBER_7 = 1 THEN 'Job proposal submitted'
+        WHEN NUMBER_7 = 2 THEN 'User registered'
+        WHEN NUMBER_7 = 3 THEN 'Payment issued'
+        WHEN NUMBER_7 = 4 THEN 'Job posted'
+        WHEN NUMBER_7 = 5 THEN 'Job proposal submitted'
+        WHEN NUMBER_7 = 6 THEN 'User registered'
+        WHEN NUMBER_7 = 7 THEN 'Payment issued'
+        ELSE NULL
+      END AS event_name,
+      ROW_NUMBER() OVER (PARTITION BY USER_ID ORDER BY DATEADD(DAY, - NUMBER_7, CURRENT_TIMESTAMP())) AS row_num
+    FROM
+      PUBLIC.events
+    WHERE
+      DATEADD(DAY, - NUMBER_365, CURRENT_TIMESTAMP()) >= DATEADD(DAY, -7, CURRENT_TIMESTAMP())
+      AND (NUMBER_7 = 0 OR NUMBER_7 = 4) -- Filter only for 'Job posted' events
+  )
+  SELECT
+    userid,
+    event_id,
+    event_timestamp,
+    event_name
+  FROM
+    EventRanking
+  WHERE
+    row_num = 1;
+primaryKey: EVENT_ID
