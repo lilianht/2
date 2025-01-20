@@ -1,0 +1,11 @@
+from:
+  relationshipName: Propensity Modeling
+  slug: upwork-users
+  mergeColumns: true
+to:
+  slug: propensity-modeling
+  mergeColumns: false
+cardinality: '1:1'
+mapping:
+  - fromColumn: USERID
+    toColumn: USERID
