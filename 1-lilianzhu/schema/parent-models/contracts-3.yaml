@@ -28,12 +28,14 @@ rawSql: |
       DATEADD(DAY, 45, DATEADD(DAY, -e.NUMBER_365, CURRENT_DATE())) AS contract_end,
       u2.userid AS freelanceruserid,
       u2.name AS freelancerusername,
+      u2.email AS freelancer_email, -- Fetches the email associated with the freelancer
       CASE
         WHEN e.BOOLEAN_87 THEN 'active'
         ELSE 'closed'
       END AS status,
       e.BOOLEAN_34 AS payment_outstanding,
-      ROW_NUMBER() OVER (PARTITION BY e.USER_ID ORDER BY e.EVENT_ID) AS contract_index
+      ROW_NUMBER() OVER (PARTITION BY e.USER_ID ORDER BY e.EVENT_ID) AS contract_index,
+      e.NUMBER_100 AS contract_amount -- Simulates payment exchanged for each contract
     FROM
       Public.events e
     INNER JOIN Users u1
@@ -51,8 +53,10 @@ rawSql: |
     contract_end,
     freelanceruserid,
     freelancerusername,
+    freelancer_email,
     status,
-    payment_outstanding
+    payment_outstanding,
+    contract_amount
   FROM
     Contracts
   WHERE
