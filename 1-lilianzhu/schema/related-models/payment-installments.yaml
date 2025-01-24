@@ -1,0 +1,33 @@
+name: Payment Installments
+source: snowflake-lilian
+type: raw_sql
+rawSql: |
+  WITH Contracts AS (
+    SELECT
+      ROW_NUMBER() OVER (ORDER BY e.EVENT_ID) AS contractid, -- Generates unique, sequential contract IDs
+      e.USER_ID AS clientuserid,
+      DATEADD(DAY, -(e.NUMBER_365 + ROW_NUMBER() OVER (PARTITION BY e.USER_ID ORDER BY e.EVENT_ID)), CURRENT_DATE()) AS contract_start,
+      DATEADD(DAY, 45, DATEADD(DAY, -(e.NUMBER_365 + ROW_NUMBER() OVER (PARTITION BY e.USER_ID ORDER BY e.EVENT_ID)), CURRENT_DATE())) AS contract_end,
+      e.NUMBER_100 AS contract_amount -- Simulates payment exchanged for each contract
+    FROM
+      Public.events e
+  ),
+  Payments AS (
+    SELECT
+      c.contractid AS contract_uid,
+      c.contract_amount / (1 + ROW_NUMBER() OVER (PARTITION BY c.contractid ORDER BY e.EVENT_ID)) AS payment_amount, -- Distributes payments across records
+      DATEADD(DAY, ROW_NUMBER() OVER (PARTITION BY c.contractid ORDER BY e.EVENT_ID) * 15, c.contract_start) AS payment_date, -- Spaced 15 days apart
+      ROW_NUMBER() OVER (PARTITION BY c.contractid ORDER BY e.EVENT_ID) AS payment_index -- Assigns a payment index
+    FROM
+      Contracts c
+    CROSS JOIN Public.events e
+  )
+  SELECT
+    contract_uid,
+    ROUND(payment_amount, 2) AS payment_amount, -- Ensure payment amounts are rounded
+    payment_date
+  FROM
+    Payments
+  QUALIFY payment_index <= 4 -- Ensures up to 4 payments per contract
+  ORDER BY
+    contract_uid, payment_date;
