@@ -3,17 +3,10 @@ source: snowflake-lilian
 type: raw_sql
 rawSql: |
   SELECT
-    EVENT_ID AS event_id,
-    USER_ID AS user_id,
-    DATEADD('day', -NUMBER_7, CURRENT_DATE()) AS timestamp,
-    CASE
-      WHEN NUMBER_10 = 1 OR NUMBER_10 = 2 THEN 'job_posted'
-      WHEN NUMBER_10 = 3 OR NUMBER_10 = 4 THEN 'payment_issued'
-      WHEN NUMBER_10 = 5 OR NUMBER_10 = 6 THEN 'job_proposal_submitted'
-      WHEN NUMBER_10 = 7 OR NUMBER_10 = 8 THEN 'logged_in'
-      WHEN NUMBER_10 = 9 OR NUMBER_10 = 10 THEN 'user_registered'
-    END AS event_name
+    ROW_NUMBER() OVER (ORDER BY e.EVENT_ID) AS contractid,
+    USER_ID AS clientuserid,
+    DATEADD(DAY, -NUMBER_7, CURRENT_DATE()) AS timestamp,
+    'payment_issued' AS last_payment_date
   FROM
-    Public.events;
-tableName: PUBLIC.EVENTS
+    Public.events e;
 eventTimestampColumn: TIMESTAMP
