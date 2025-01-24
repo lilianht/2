@@ -52,7 +52,6 @@ rawSql: |
     clientemail,
     contract_start,
     contract_end,
-    date, -- Include the new date column
     freelanceruserid,
     freelancerusername,
     freelancer_email,
