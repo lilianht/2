@@ -31,7 +31,7 @@ rawSql: |
       u2.email AS freelancer_email, -- Fetches the email associated with the freelancer
       DATEADD(DAY, -e.NUMBER_30, CURRENT_DATE()) AS date, -- Simple "date" column
       CASE
-        WHEN e.BOOLEAN_87 THEN 'active'
+        WHEN e.BOOLEAN_87 THEN 'open'
         ELSE 'closed'
       END AS status,
       e.BOOLEAN_34 AS payment_outstanding,
