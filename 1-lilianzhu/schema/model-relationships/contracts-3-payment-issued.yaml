@@ -1,0 +1,11 @@
+from:
+  relationshipName: Payment issued
+  slug: contracts-3
+  mergeColumns: true
+to:
+  slug: payment-issued
+  mergeColumns: false
+cardinality: '1:1'
+mapping:
+  - fromColumn: CONTRACTID
+    toColumn: CONTRACTID
