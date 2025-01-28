@@ -172,3 +172,4 @@ destinations:
     type: salesforceSandbox
   airship-bb6da:
     type: airship
+slug: manifest-lil
