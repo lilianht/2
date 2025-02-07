@@ -1,0 +1,11 @@
+model: website-events
+destination: undefined-947d7-30e10
+config:
+  type: segment
+  configVersion: 0
+  externalIdMapping:
+    to: user_ids
+    from: USER_ID
+schedule:
+  type: manual
+schedulePaused: false
