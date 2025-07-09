@@ -1,0 +1,4 @@
+name: AI Decisioning User Feature Matrix
+source: Snowflake-a4ac9
+type: table
+tableName: CAMPAIGNS_DEMO.ADDED_TO_CART_EVENT
