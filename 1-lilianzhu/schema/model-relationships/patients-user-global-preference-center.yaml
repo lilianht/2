@@ -1,0 +1,12 @@
+from:
+  relationshipName: User Global Preference Center
+  slug: patients
+  mergeColumns: false
+to:
+  relationshipName: MoneyLion Users
+  slug: user-global-preference-center
+  mergeColumns: false
+cardinality: '1:1'
+mapping:
+  - fromColumn: USER_ID
+    toColumn: USER_ID

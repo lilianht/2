@@ -1,0 +1,11 @@
+from:
+  relationshipName: SMS Unsubscribe
+  slug: patients
+  mergeColumns: false
+to:
+  slug: sms-unsubscribe
+  mergeColumns: false
+cardinality: 1:many
+mapping:
+  - fromColumn: USER_ID
+    toColumn: USER_ID
