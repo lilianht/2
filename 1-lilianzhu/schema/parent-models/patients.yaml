@@ -1,4 +1,4 @@
-name: MoneyLion Users
+name: Users
 source: Snowflake-a4ac9
 type: table
 tableName: PUBLIC.USERS
