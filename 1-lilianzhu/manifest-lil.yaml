@@ -15,6 +15,10 @@ sources:
     name: BigQuery
     type: bigquery
 destinations:
+  undefined-a8060-0ae0f:
+    type: twitter
+  undefined-77c6f-1817c:
+    type: googleSheetsSA
   hightouch-personalization-api:
     name: Hightouch Personalization API
     type: hightouch-personalization-api
@@ -40,8 +44,6 @@ destinations:
     type: gainsightpx
   undefined-c9ea9-44143:
     type: pinterest-ads
-  undefined-77c6f-1817c:
-    type: googleSheetsSA
   undefined-d2bec-a6f1d:
     type: tradedesk
   undefined-9a438-12b62:
@@ -108,8 +110,6 @@ destinations:
     type: mixpanel
   undefined-c6cd5-1cd6e:
     type: klaviyo
-  undefined-a8060-0ae0f:
-    type: twitter
   undefined-aef0b-e9537:
     type: email
   undefined-22d0e-fd466:
