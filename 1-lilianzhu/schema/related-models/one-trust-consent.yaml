@@ -1,0 +1,12 @@
+name: OneTrust Consent
+source: snowflake-lilian
+type: raw_sql
+rawSql: |
+  SELECT
+    USER_ID AS userid,
+    BOOLEAN_34 AS cookie_consent,
+    BOOLEAN_87 AS email_consent,
+    BOOLEAN_87 AS sms_consent,
+    BOOLEAN_52 AS ad_consent
+  FROM
+    Public.users;

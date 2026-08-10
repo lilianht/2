@@ -1,0 +1,11 @@
+from:
+  relationshipName: Testing Interaction Model
+  slug: contacts
+  mergeColumns: false
+to:
+  slug: testing-interaction-model
+  mergeColumns: false
+cardinality: 1:many
+mapping:
+  - fromColumn: CONTACT_ID
+    toColumn: CONTACT_ID

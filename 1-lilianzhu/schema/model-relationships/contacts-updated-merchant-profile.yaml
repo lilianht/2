@@ -1,0 +1,11 @@
+from:
+  relationshipName: Updated merchant profile
+  slug: contacts
+  mergeColumns: false
+to:
+  slug: updated-merchant-profile
+  mergeColumns: false
+cardinality: 1:many
+mapping:
+  - fromColumn: CONTACT_ID
+    toColumn: CONTACT_ID

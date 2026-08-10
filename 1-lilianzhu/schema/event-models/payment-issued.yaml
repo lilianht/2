@@ -1,0 +1,12 @@
+name: Payment issued
+source: snowflake-lilian
+type: raw_sql
+rawSql: |
+  SELECT
+    ROW_NUMBER() OVER (ORDER BY e.EVENT_ID) AS contractid,
+    USER_ID AS clientuserid,
+    DATEADD(DAY, -NUMBER_7, CURRENT_DATE()) AS timestamp,
+    'payment_issued' AS last_payment_date
+  FROM
+    Public.events e;
+eventTimestampColumn: TIMESTAMP

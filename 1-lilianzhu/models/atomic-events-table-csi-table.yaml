@@ -1,0 +1,24 @@
+name: Atomic Events Table (CSI Table)
+source: snowflake-lilian
+type: raw_sql
+rawSql: |
+  SELECT
+    user_id,
+    event_id,
+    DATEADD(DAY, - number_7, CURRENT_TIMESTAMP()) AS event_timestamp,
+    CASE
+      WHEN number_7 = 0 THEN 'Job posted'
+      WHEN number_7 = 1 THEN 'Job proposal submitted'
+      WHEN number_7 = 2 THEN 'User registered'
+      WHEN number_7 = 3 THEN 'Payment issued'
+      WHEN number_7 = 4 THEN 'Job posted'
+      WHEN number_7 = 5 THEN 'Job proposal submitted'
+      WHEN number_7 = 6 THEN 'User registered'
+      WHEN number_7 = 7 THEN 'Payment issued'
+      ELSE NULL
+    END AS event_name
+  FROM
+    PUBLIC.events
+  WHERE
+    DATEADD(DAY, - number_365, CURRENT_TIMESTAMP()) >= DATEADD(DAY, -7, CURRENT_TIMESTAMP());
+primaryKey: EVENT_ID

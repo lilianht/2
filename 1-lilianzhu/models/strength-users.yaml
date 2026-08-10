@@ -1,0 +1,50 @@
+name: Strength+ Users
+source: Snowflake-a4ac9
+description: Subset of all Peloton users who are also using Strength+
+type: raw_sql
+rawSql: |
+  SELECT
+      user_id,
+      first_name,
+      last_name,
+      email,
+      CONCAT(
+          '+1', 
+          CASE 
+              WHEN number_10 BETWEEN 200 AND 999 THEN number_10
+              ELSE 200 + (number_10 % 799)
+          END, 
+          LPAD(CAST(number_100 AS STRING), 3, '0'), 
+          LPAD(CAST(number_1000 AS STRING), 4, '0')
+      ) AS phone,
+      CASE 
+          WHEN number_100 BETWEEN 1 AND 10 THEN 'New York'
+          WHEN number_100 BETWEEN 11 AND 20 THEN 'Los Angeles'
+          WHEN number_100 BETWEEN 21 AND 30 THEN 'Chicago'
+          WHEN number_100 BETWEEN 31 AND 40 THEN 'Houston'
+          WHEN number_100 BETWEEN 41 AND 50 THEN 'Phoenix'
+          ELSE 'San Francisco'
+      END AS city,
+      CASE 
+          WHEN number_100 BETWEEN 1 AND 10 THEN 'New York'
+          WHEN number_100 BETWEEN 11 AND 20 THEN 'California'
+          WHEN number_100 BETWEEN 21 AND 30 THEN 'Illinois'
+          WHEN number_100 BETWEEN 31 AND 40 THEN 'Texas'
+          WHEN number_100 BETWEEN 41 AND 50 THEN 'Arizona'
+          ELSE 'California'
+      END AS state,
+      CONCAT(
+          1975 + (number_1000 % 32), '-', 
+          LPAD((number_30 % 12) + 1, 2, '0'), '-', 
+          LPAD((number_1000 % 28) + 1, 2, '0')
+      ) AS birthday,
+      OBJECT_CONSTRUCT(
+          'cookie_consent', CASE WHEN boolean_34 = true THEN true ELSE false END,
+          'email_consent', CASE WHEN boolean_52 = true THEN true ELSE false END,
+          'sms_consent', CASE WHEN boolean_87 = true THEN true ELSE false END
+      ) AS consent,
+      DATEADD('day', -(number_365 + (number_1000 % 180)), CURRENT_DATE()) AS strengthplus_registered_at,
+      DATEADD('day', -number_365, CURRENT_DATE()) AS strengthplus_last_active_at,
+      'true' AS strengthplus_user
+  FROM public.users;
+primaryKey: EMAIL

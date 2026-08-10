@@ -1,0 +1,11 @@
+from:
+  relationshipName: Order completed
+  slug: product-catalog
+  mergeColumns: false
+to:
+  slug: order-completed
+  mergeColumns: false
+cardinality: many:1
+mapping:
+  - fromColumn: SKU
+    toColumn: SKU

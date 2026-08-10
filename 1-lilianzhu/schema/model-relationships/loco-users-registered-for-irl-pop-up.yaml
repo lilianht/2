@@ -1,0 +1,11 @@
+from:
+  relationshipName: Registered for IRL Pop Up
+  slug: loco-users
+  mergeColumns: false
+to:
+  slug: registered-for-irl-pop-up
+  mergeColumns: false
+cardinality: 1:many
+mapping:
+  - fromColumn: USER_ID
+    toColumn: USER_ID

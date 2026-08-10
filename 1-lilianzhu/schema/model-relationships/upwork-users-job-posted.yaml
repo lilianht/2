@@ -1,0 +1,11 @@
+from:
+  relationshipName: Job posted
+  slug: upwork-users
+  mergeColumns: false
+to:
+  slug: job-posted
+  mergeColumns: false
+cardinality: 1:many
+mapping:
+  - fromColumn: USERID
+    toColumn: USER_ID

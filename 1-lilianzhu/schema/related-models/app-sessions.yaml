@@ -1,0 +1,50 @@
+name: App sessions
+source: snowflake-bumble
+description: Behavioural data for app session lengths to indicate level of engagement.
+type: raw_sql
+rawSql: |
+  WITH user_pool AS (
+      -- Create a pool of distinct user_ids
+      SELECT DISTINCT USER_ID
+      FROM PUBLIC.EVENTS
+  ),
+  user_session_limits AS (
+      -- Assign a random number of sessions (1 to 5) per user
+      SELECT
+          USER_ID,
+          MOD(ABS(CAST(RANDOM() * 1000 AS INT)), 5) + 1 AS MAX_SESSIONS -- Random session count between 1 and 5
+      FROM
+          user_pool
+  ),
+  session_events AS (
+      -- Generate session data for each user
+      SELECT
+          u.USER_ID,
+          MD5(u.USER_ID || '-' || ROW_NUMBER() OVER (PARTITION BY u.USER_ID ORDER BY RANDOM())) AS SESSION_ID, -- Unique session ID
+          DATEADD(
+              'minute',
+              -MOD(ABS(CAST(RANDOM() * 100000 AS INT)), 10080), -- Random timestamp within the past week
+              CURRENT_TIMESTAMP
+          ) AS STARTED_AT, -- Session start time
+          ROUND(0.5 + (MOD(NUMBER_100, 145) / 10), 2) AS SESSION_IN_MINUTES, -- Session length (0.5 to 15 minutes)
+          ROW_NUMBER() OVER (PARTITION BY u.USER_ID ORDER BY RANDOM()) AS SESSION_RANK -- Rank to limit sessions
+      FROM
+          user_pool u
+      JOIN
+          PUBLIC.EVENTS e
+      ON
+          u.USER_ID = e.USER_ID
+  )
+  SELECT
+      s.USER_ID,
+      s.SESSION_ID,
+      s.STARTED_AT,
+      s.SESSION_IN_MINUTES
+  FROM
+      session_events s
+  JOIN
+      user_session_limits l
+  ON
+      s.USER_ID = l.USER_ID
+  WHERE
+      s.SESSION_RANK <= l.MAX_SESSIONS -- Limit the number of sessions per user

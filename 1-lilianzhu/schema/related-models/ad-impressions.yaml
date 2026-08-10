@@ -1,0 +1,4 @@
+name: Ad Impressions
+source: e-commerce
+type: table
+tableName: WEB_APP.CLICKED_ADD_TO_CART

@@ -1,0 +1,11 @@
+from:
+  relationshipName: Started checkout
+  slug: product-catalog
+  mergeColumns: false
+to:
+  slug: started-checkout
+  mergeColumns: false
+cardinality: many:1
+mapping:
+  - fromColumn: SKU
+    toColumn: SKU

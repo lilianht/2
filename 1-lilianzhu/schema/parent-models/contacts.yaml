@@ -1,0 +1,10 @@
+name: Contacts
+source: b2-b-accounts
+description: >-
+  Master user list of all users listed as the point-of-contact for a Moneris
+  merchant.
+type: raw_sql
+rawSql: select * from lilian.public.b2b_contacts
+primaryKey: CONTACT_ID
+primaryLabel: FIRST_NAME
+secondaryLabel: EMAIL

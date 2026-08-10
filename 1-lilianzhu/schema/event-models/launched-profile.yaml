@@ -1,0 +1,14 @@
+name: Launched profile
+source: snowflake-bumble
+description: Profile completed and officially swiping!
+type: raw_sql
+rawSql: |-
+  SELECT
+    user_id,
+    event_id,
+    DATEADD(DAY, - number_7, CURRENT_TIMESTAMP()) AS TIMESTAMP,
+    -- DATEADD(DAY, - number_365, CURRENT_TIMESTAMP()) AS timestamp,
+    -- DATEADD(DAY, - number_30, CURRENT_TIMESTAMP()) AS timestamp,
+  FROM
+    PUBLIC.events
+eventTimestampColumn: TIMESTAMP

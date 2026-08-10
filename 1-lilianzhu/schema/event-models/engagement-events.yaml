@@ -1,0 +1,70 @@
+name: Engagement Events
+source: snowflake
+description: >-
+  View all engagements across in-app activity, website traffic, and marketing
+  campaigns for users.
+type: raw_sql
+rawSql: |
+  SELECT
+      USER_ID,
+      
+      -- Define the channel with "Website" replacing "In-app"
+      CASE 
+          WHEN NUMBER_10 = 1 THEN 'Email'
+          WHEN NUMBER_10 = 2 THEN 'Social Media'
+          WHEN NUMBER_10 = 3 THEN 'SMS'
+          WHEN NUMBER_10 = 4 THEN 'Website'
+          ELSE 'Website'
+      END AS channel,
+      
+      -- Generate timestamp with 70% in the last 3 months
+      CASE 
+          WHEN NUMBER_100 < 70 THEN DATEADD('day', -MOD(NUMBER_100, 90), CURRENT_DATE())  -- Last 3 months (90 days)
+          ELSE DATEADD('day', -MOD(NUMBER_100, 365), CURRENT_DATE())  -- Within the last year (365 days)
+      END AS timestamp,
+      
+      -- Campaign actions for non-website channels
+      CASE 
+          WHEN NUMBER_10 = 1 THEN 
+              CASE 
+                  WHEN MOD(NUMBER_100, 5) = 0 THEN 'Opened Email'
+                  WHEN MOD(NUMBER_100, 5) = 1 THEN 'Clicked Email'
+                  WHEN MOD(NUMBER_100, 5) = 2 THEN 'Unsubscribed from Email'
+                  WHEN MOD(NUMBER_100, 5) = 3 THEN 'Marked as Spam'
+                  ELSE 'Replied to Email'
+              END
+          WHEN NUMBER_10 = 2 THEN 
+              CASE 
+                  WHEN MOD(NUMBER_100, 5) = 0 THEN 'Liked Post'
+                  WHEN MOD(NUMBER_100, 5) = 1 THEN 'Shared Post'
+                  WHEN MOD(NUMBER_100, 5) = 2 THEN 'Commented on Post'
+                  WHEN MOD(NUMBER_100, 5) = 3 THEN 'Clicked Link in Post'
+                  ELSE 'Followed Page'
+              END
+          WHEN NUMBER_10 = 3 THEN 
+              CASE 
+                  WHEN MOD(NUMBER_100, 5) = 0 THEN 'Opened SMS'
+                  WHEN MOD(NUMBER_100, 5) = 1 THEN 'Clicked SMS Link'
+                  WHEN MOD(NUMBER_100, 5) = 2 THEN 'Replied to SMS'
+                  WHEN MOD(NUMBER_100, 5) = 3 THEN 'Opted Out of SMS'
+                  ELSE 'Forwarded SMS'
+              END
+          ELSE NULL  -- NULL for Website channel
+      END AS campaign_action,
+      
+      -- Website actions only for Website channel
+      CASE 
+          WHEN NUMBER_10 = 4 THEN 
+              CASE 
+                  WHEN MOD(NUMBER_7, 5) = 0 THEN 'Viewed PDP'
+                  WHEN MOD(NUMBER_7, 5) = 1 THEN 'Participated in Webinar'
+                  WHEN MOD(NUMBER_7, 5) = 2 THEN 'Read Learning Center'
+                  WHEN MOD(NUMBER_7, 5) = 3 THEN 'Browsed Special Offers Page'
+                  ELSE 'Signed In'
+              END
+          ELSE NULL  -- NULL for non-Website channels
+      END AS website_action
+
+  FROM
+      Public.events;
+eventTimestampColumn: TIMESTAMP

@@ -1,0 +1,11 @@
+from:
+  relationshipName: Subscription SKU details
+  slug: ended-subscription-2
+  mergeColumns: false
+to:
+  slug: subscription-sku-details-2
+  mergeColumns: false
+cardinality: many:1
+mapping:
+  - fromColumn: SUBSCRIPTION_ID
+    toColumn: SUBSCRIPTION_ID

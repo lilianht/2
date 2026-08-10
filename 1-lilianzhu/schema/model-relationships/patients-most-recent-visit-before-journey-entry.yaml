@@ -1,0 +1,11 @@
+from:
+  relationshipName: Most recent visit before journey entry
+  slug: patients
+  mergeColumns: false
+to:
+  slug: most-recent-visit-before-journey-entry
+  mergeColumns: false
+cardinality: '1:1'
+mapping:
+  - fromColumn: PATIENT_ID
+    toColumn: PATIENT_ID

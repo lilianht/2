@@ -1,0 +1,11 @@
+from:
+  relationshipName: Upwork Users
+  slug: contracts-3
+  mergeColumns: false
+to:
+  slug: upwork-users
+  mergeColumns: false
+cardinality: many:1
+mapping:
+  - fromColumn: CLIENTUSERID
+    toColumn: USERID

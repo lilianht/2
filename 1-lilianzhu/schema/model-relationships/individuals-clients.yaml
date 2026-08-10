@@ -1,0 +1,11 @@
+from:
+  relationshipName: Clients
+  slug: individuals
+  mergeColumns: false
+to:
+  slug: clients
+  mergeColumns: false
+cardinality: 1:many
+mapping:
+  - fromColumn: USER_ID
+    toColumn: USER_ID

@@ -1,0 +1,11 @@
+from:
+  relationshipName: Leads
+  slug: accounts-2
+  mergeColumns: false
+to:
+  slug: leads
+  mergeColumns: false
+cardinality: '1:1'
+mapping:
+  - fromColumn: ACCOUNT_ID
+    toColumn: ACCOUNT_ID

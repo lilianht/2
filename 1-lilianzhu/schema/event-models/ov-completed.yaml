@@ -1,0 +1,5 @@
+name: New SKU Purchased
+source: Snowflake-a4ac9
+type: table
+tableName: CAMPAIGNS_DEMO.ADDED_TO_CART_EVENT
+eventTimestampColumn: TIMESTAMP

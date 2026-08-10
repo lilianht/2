@@ -1,0 +1,11 @@
+from:
+  relationshipName: Rewards Program
+  slug: customers
+  mergeColumns: true
+to:
+  slug: rewards-program-2
+  mergeColumns: false
+cardinality: '1:1'
+mapping:
+  - fromColumn: USER_ID
+    toColumn: USER_ID

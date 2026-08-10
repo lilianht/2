@@ -1,0 +1,11 @@
+from:
+  relationshipName: Freelancer profile attributes
+  slug: individuals
+  mergeColumns: true
+to:
+  slug: freelancer-profile-attributes
+  mergeColumns: false
+cardinality: '1:1'
+mapping:
+  - fromColumn: USER_ID
+    toColumn: USER_ID

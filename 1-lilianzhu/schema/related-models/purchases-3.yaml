@@ -1,0 +1,48 @@
+name: Purchases
+source: e-commerce
+type: raw_sql
+rawSql: |
+  WITH purchase_events AS (
+      SELECT
+          USER_ID,
+          MD5(USER_ID || '-' || ROW_NUMBER() OVER (PARTITION BY USER_ID ORDER BY RANDOM())) AS PURCHASE_ID, -- Generate a unique purchase ID
+          -- Assign a random product category based on NUMBER_10
+          CASE MOD(NUMBER_10, 6)
+              WHEN 0 THEN 'Training Shoes'
+              WHEN 1 THEN 'Running Shoes'
+              WHEN 2 THEN 'Apparel'
+              WHEN 3 THEN 'Accessories'
+              ELSE 'Cross Fit'
+          END AS PRODUCT_CATEGORY,
+          -- Assign a random product price based on NUMBER_1000
+          50 + MOD(ABS(NUMBER_1000), 151) AS PRODUCT_PRICE, -- Random price between $50 and $200
+          -- Assign random quantities between 1 and 5
+          MOD(NUMBER_365, 5) + 1 AS QUANTITY,
+          -- Generate purchase dates with some users not having a purchase in the last 6 months
+          CASE
+              WHEN ABS(HASH(USER_ID)) % 3 = 0 THEN DATEADD('day', -MOD(NUMBER_30, 180) - 180, CURRENT_DATE()) -- Older than 6 months
+              ELSE DATEADD('day', -MOD(NUMBER_30, 365), CURRENT_DATE()) -- Within the last year
+          END AS PURCHASE_DATE,
+          -- Assign a payment method based on NUMBER_7
+          CASE MOD(NUMBER_7, 4)
+              WHEN 0 THEN 'Credit Card'
+              WHEN 1 THEN 'PayPal'
+              WHEN 2 THEN 'Gift Card'
+              ELSE 'Apple Pay'
+          END AS PAYMENT_METHOD,
+          -- Calculate total cost
+          (50 + MOD(ABS(NUMBER_1000), 151)) * (MOD(NUMBER_365, 5) + 1) AS TOTAL_COST
+      FROM
+          PUBLIC.EVENTS
+  )
+  SELECT
+      USER_ID,
+      PURCHASE_ID,
+      PRODUCT_CATEGORY,
+      PRODUCT_PRICE,
+      QUANTITY,
+      PURCHASE_DATE,
+      PAYMENT_METHOD,
+      TOTAL_COST
+  FROM
+      purchase_events;

@@ -1,0 +1,12 @@
+from:
+  relationshipName: Items Purchased
+  slug: purchases
+  mergeColumns: true
+to:
+  relationshipName: Purchases
+  slug: items-purchased
+  mergeColumns: true
+cardinality: many:1
+mapping:
+  - fromColumn: PURCHASE_ID
+    toColumn: PURCHASE_ID

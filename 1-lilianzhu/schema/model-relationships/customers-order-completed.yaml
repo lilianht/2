@@ -1,0 +1,11 @@
+from:
+  relationshipName: Order completed
+  slug: customers
+  mergeColumns: false
+to:
+  slug: order-completed
+  mergeColumns: false
+cardinality: 1:many
+mapping:
+  - fromColumn: USER_ID
+    toColumn: USER_ID

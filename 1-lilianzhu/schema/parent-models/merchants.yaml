@@ -1,0 +1,42 @@
+name: 🏪 Clients
+source: marketplace
+type: raw_sql
+rawSql: |-
+  SELECT
+    -- Ignore this section below
+    ROW_NUMBER() OVER (
+      ORDER BY
+        RANDOM(1)
+    ) AS PRIMARY_KEY,
+    account_name || '-' || ROW_NUMBER() OVER (
+      ORDER BY
+        RANDOM(1)
+    ) AS ACCOUNT_NAME,
+    -- Ignore the section above
+    account_id,
+    boolean_52 AS enterprise,
+    boolean_87 AS trial_account,
+    boolean_34 AS churn_risk,
+    number_100 AS BAPT,
+    DATEADD(DAY, - number_7, CURRENT_TIMESTAMP()) AS last_logged_in_date,
+    DATEADD(DAY, - number_30, CURRENT_TIMESTAMP()) AS last_watch_date,
+    DATEADD(DAY, - number_365, CURRENT_TIMESTAMP()) AS first_account_date,
+    number_1000 AS ARR,
+    number_100 AS intent_score,
+    email1 AS account_owner,
+    email2 AS most_active_user
+  FROM
+    PUBLIC.ACCOUNTS
+    CROSS JOIN (
+      -- This section controls how many times the account model is multiplied. ie 200 accounts x 6 = 1200k accounts
+      VALUES
+        (1),
+        (2),
+        (3),
+        (4),
+        (5),
+        (6)
+    ) AS multiplier (REPEAT)
+primaryKey: PRIMARY_KEY
+primaryLabel: ACCOUNT_NAME
+secondaryLabel: ACCOUNT_ID

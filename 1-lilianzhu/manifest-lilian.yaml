@@ -1,0 +1,170 @@
+# READ ONLY FILE
+# Changes made here will be ignored. Please use the Hightouch dashboard to create and edit sources and destinations.
+
+sources:
+  marketplace:
+    name: 🛒 Marketplace
+    type: snowflake
+  e-commerce:
+    name: 🍏 eCommerce
+    type: snowflake
+  Databricks-4d3bf:
+    name: Databricks
+    type: databricks
+  snowflake-bumble:
+    name: 📲 App Users
+    type: snowflake
+  snowflake:
+    name: 💼 B2B
+    type: snowflake
+  b2-b-accounts:
+    name: '💵 Moneris '
+    type: snowflake
+  Snowflake-75068:
+    name: 🏥 Healthcare
+    type: snowflake
+  BigQuery-2b08f:
+    name: BigQuery
+    type: bigquery
+destinations:
+  http-request-50c0f-757dc:
+    type: webhookV2
+  salesforce-sandbox:
+    name: Salesforce (Sandbox)
+    type: salesforceSandbox
+  undefined-3434a-41816:
+    type: shopify
+  undefined-eee5d-f9470:
+    type: attentive
+  undefined-38edf-c3dc2:
+    type: adobeTarget
+  undefined-0498a-65378:
+    type: sftp
+  undefined-ae262-22a5a:
+    type: emarsys
+  undefined-2d85f-869c0:
+    type: hightouch-personalization-api
+  undefined-99295-6b7ec:
+    type: googlesheets
+  undefined-6508a-ff573:
+    type: eloqua
+  undefined-c68af-c833f:
+    type: gainsightpx
+  undefined-c9ea9-7dd82:
+    type: pinterest-ads
+  undefined-77c6f-38a3b:
+    type: googleSheetsSA
+  undefined-d2bec-d28d4:
+    type: tradedesk
+  undefined-9a438-fd7dc:
+    type: servicenow
+  undefined-49803-841d7:
+    type: googleDrive
+  undefined-07e44-b09c1:
+    type: netsuite-rest
+  undefined-bb025-53468:
+    type: redditAds
+  undefined-90de4-e2b99:
+    type: anaplan
+  undefined-c61b6-a5bd7:
+    type: nextdoor
+  undefined-73d83-7da95:
+    type: google
+  undefined-d5bad-aad17:
+    type: klaviyo
+  undefined-3ad06-02823:
+    type: googleAnalytics
+  undefined-4b163-1075d:
+    type: activeCampaign
+  undefined-dd3fb-5d452:
+    type: custom
+  undefined-dae59-292fa:
+    type: snowflake-destination
+  undefined-17ff9-3be0d:
+    type: facebookAdCatalog
+  undefined-e89e2-4dfb5:
+    type: hubspot
+  undefined-65ef5-c1b14:
+    type: postgres
+  undefined-3f59d-4d1d2:
+    type: s3
+  undefined-21ca9-49f9b:
+    type: sailthru
+  undefined-947d7-e6a06:
+    type: brazeCohorts
+  undefined-1d9e2-5b6ae:
+    type: mysql-destination
+  undefined-6c5cf-c8b3f:
+    type: whatsapp
+  undefined-f4e26-e624d:
+    type: citrusad
+  undefined-9ed03-072a4:
+    type: mailchimp
+  undefined-98024-5b49d:
+    type: outreach
+  earl-s-iterable-project-tejas-hightouch-io-hightouch-email-project-b7829:
+    type: iterable
+  launch-darkly-cd753:
+    type: launchdarkly
+  statsig-56fea:
+    type: statsig
+  undefined-66b6b-365cd:
+    type: heap
+  undefined-ff473-e059a:
+    type: sync-logs
+  undefined-c18b8-a32c4:
+    type: mixpanel
+  undefined-c6cd5-2c34e:
+    type: klaviyo
+  undefined-a8060-b3929:
+    type: twitter
+  undefined-aef0b-ac0dc:
+    type: email
+  undefined-22d0e-22d59:
+    type: marketo
+  undefined-b9f97-58381:
+    type: customerio
+  undefined-1e8ff-d5725:
+    type: mparticle
+  undefined-28721-69050:
+    type: campaigner
+  undefined-b1984-2dcee:
+    type: sendgrid
+  undefined-885f0-10f16:
+    type: braze
+  undefined-0b90f-811a9:
+    type: amplitude
+  undefined-f8d62-c8792:
+    type: sfmc
+  undefined-08ce6-ac9f4:
+    type: snapchat
+  undefined-2ed35-25cbe:
+    type: facebookConversions
+  undefined-a1430-50daa:
+    type: zuora
+  undefined-c485a-a3465:
+    type: gam360
+  undefined-e72d8-f5a59:
+    type: moengage
+  undefined-8f14c-4fc16:
+    type: segment
+  undefined-258ed-f430b:
+    type: slack
+  undefined-629ee-fe0b2:
+    type: tiktok
+  undefined-25f4a-0c3c7:
+    type: linkedin
+  http-request-e0ecc:
+    type: webhookV2
+  microsoft-bing-ads-8ceb9:
+    type: bingads
+  undefined-11a81-07509:
+    type: microsoft-dynamics
+  null-49c18:
+    type: microsoft-dynamics
+  facebook-custom-audiences-new-69f7b:
+    type: facebook
+  google-campaign-manager-4a099:
+    type: googleCampaignManager
+  marigold-engage-selligent-2f402:
+    type: marigold-engage

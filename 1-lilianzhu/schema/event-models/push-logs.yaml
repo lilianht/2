@@ -1,0 +1,56 @@
+name: Push logs
+source: snowflake-bumble
+description: All push notification content delivered to users
+type: raw_sql
+rawSql: |
+  WITH user_pool AS (
+      -- Create a pool of user_ids
+      SELECT DISTINCT USER_ID
+      FROM PUBLIC.EVENTS
+  ),
+  user_push_limits AS (
+      -- Assign a random number of push notifications (5 to 15) per user
+      SELECT
+          USER_ID,
+          5 + MOD(ABS(CAST(RANDOM() * 1000 AS INT)), 11) AS MAX_PUSHES -- Random push count between 5 and 15
+      FROM
+          user_pool
+  ),
+  push_events AS (
+      -- Generate push notification data for each user
+      SELECT
+          u.USER_ID,
+          e.EVENT_ID AS PUSH_ID, -- Treat event_id as the push notification ID
+          DATEADD(
+              'minute',
+              -MOD(ABS(CAST(RANDOM() * 100000 AS INT)), 10080), -- Random timestamp within the last 7 days
+              CURRENT_TIMESTAMP
+          ) AS TIMESTAMP, -- Generate a timestamp for the push notification
+          BOOLEAN_87 AS PUSH_DELIVERED, -- Push delivered flag based on BOOLEAN_87
+          CASE
+              WHEN RANDOM() < 0.5 THEN TRUE
+              ELSE FALSE
+          END AS PUSH_OPENED, -- Randomly assign push opened status (50% chance)
+          ROW_NUMBER() OVER (PARTITION BY u.USER_ID ORDER BY RANDOM()) AS PUSH_RANK -- Rank to limit pushes per user
+      FROM
+          user_pool u
+      CROSS JOIN
+          PUBLIC.EVENTS e
+      WHERE
+          u.USER_ID = e.USER_ID -- Ensure the push notifications align with the user
+  )
+  SELECT
+      p.USER_ID,
+      p.PUSH_ID,
+      p.TIMESTAMP,
+      p.PUSH_DELIVERED,
+      p.PUSH_OPENED
+  FROM
+      push_events p
+  JOIN
+      user_push_limits l
+  ON
+      p.USER_ID = l.USER_ID
+  WHERE
+      p.PUSH_RANK <= l.MAX_PUSHES -- Limit the number of pushes per user
+eventTimestampColumn: TIMESTAMP

@@ -1,0 +1,4 @@
+name: Household Dependents
+source: Snowflake-75068
+type: raw_sql
+rawSql: select * from lilian.public.children

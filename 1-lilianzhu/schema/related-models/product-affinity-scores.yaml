@@ -1,0 +1,26 @@
+name: Product Affinity Scores
+source: e-commerce
+type: raw_sql
+rawSql: |-
+  WITH sampled_skus AS (
+      SELECT user_id AS sku
+      FROM PUBLIC.USERS
+      SAMPLE (5) -- Adjust the percentage of SKUs for each user to have an affinity score
+  ),
+  affinity_data AS (
+      SELECT
+          u.user_id AS user_id,  -- Treat one side as users
+          s.sku AS sku,          -- Treat the other side as SKUs
+          uniform(0::float, 1::float, random()) AS affinity_score
+      FROM 
+          PUBLIC.USERS u     
+      CROSS JOIN 
+          sampled_skus s         -- This is the "SKU" side;
+  )
+  SELECT
+      user_id,
+      sku,
+      affinity_score,
+      RANK() OVER (PARTITION BY user_id ORDER BY affinity_score DESC) AS affinity_rank
+  FROM
+      affinity_data;

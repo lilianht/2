@@ -1,0 +1,47 @@
+name: Most recent visit reason before entering journey
+source: Snowflake-75068
+type: raw_sql
+rawSql: |
+  WITH entered_journey AS (
+      -- Step 1: Identify the 'entered-journey' row and extract timestamp and row_id
+      SELECT 
+          row_id AS patient_id, -- Map row_id to patient_id
+          CAST(timestamp AS DATE) AS entered_journey_date -- Cast timestamp to DATE
+      FROM 
+          lilian.hightouch_planner.journey_log_75660F3FA8604796A317CAD2F5D2D11F
+      WHERE 
+          event_type = 'entered-journey'
+  ),
+  filtered_visits AS (
+      -- Step 2: Find visits where the visit_date is less than the entered-journey date
+      SELECT 
+          v.*,
+          ej.entered_journey_date
+      FROM 
+          lilian.public.visits AS v
+      INNER JOIN 
+          entered_journey AS ej
+      ON 
+          v.patient_id = ej.patient_id
+      WHERE 
+          v.visit_date < ej.entered_journey_date
+  )
+  -- Step 3: Find the closest visit_date before the entered-journey date
+  SELECT 
+      fv.*
+  FROM (
+      SELECT 
+          v.*,
+          ej.entered_journey_date,
+          ROW_NUMBER() OVER (PARTITION BY v.patient_id ORDER BY ej.entered_journey_date - v.visit_date ASC) AS rn
+      FROM 
+          lilian.public.visits AS v
+      INNER JOIN 
+          entered_journey AS ej
+      ON 
+          v.patient_id = ej.patient_id
+      WHERE 
+          v.visit_date < ej.entered_journey_date
+  ) AS fv
+  WHERE 
+      fv.rn = 1;

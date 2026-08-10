@@ -1,0 +1,11 @@
+from:
+  relationshipName: Propensity to buy
+  slug: loco-users
+  mergeColumns: false
+to:
+  slug: propensity-to-buy
+  mergeColumns: false
+cardinality: '1:1'
+mapping:
+  - fromColumn: USER_ID
+    toColumn: USER_ID

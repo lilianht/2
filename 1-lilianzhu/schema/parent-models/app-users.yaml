@@ -1,0 +1,84 @@
+name: 📲 App Users
+source: snowflake-bumble
+type: raw_sql
+rawSql: |
+  SELECT
+    -- Generate a primary key
+    ROW_NUMBER() OVER (ORDER BY RANDOM()) AS PRIMARY_KEY,
+    
+    -- Concatenate row number and email for a unique email value
+    CONCAT(ROW_NUMBER() OVER (ORDER BY RANDOM()), '-', EMAIL) AS EMAIL,
+    
+    USER_ID,
+    FIRST_NAME,
+    LAST_NAME,
+    
+    -- Add age column (18-35 skew, up to 60)
+    CASE
+      WHEN MOD(NUMBER_365, 100) <= 70 THEN 18 + MOD(NUMBER_100, 18) -- 70% between 18-35
+      ELSE 36 + MOD(NUMBER_100, 25) -- 30% up to 60
+    END AS AGE,
+    
+    -- Replace state with location (10 city options)
+    CASE
+      WHEN MOD(NUMBER_10, 10) = 0 THEN 'New York, NY'
+      WHEN MOD(NUMBER_10, 10) = 1 THEN 'Los Angeles, CA'
+      WHEN MOD(NUMBER_10, 10) = 2 THEN 'Chicago, IL'
+      WHEN MOD(NUMBER_10, 10) = 3 THEN 'Atlanta, GA'
+      WHEN MOD(NUMBER_10, 10) = 4 THEN 'Athens, GA'
+      WHEN MOD(NUMBER_10, 10) = 5 THEN 'Austin, TX'
+      WHEN MOD(NUMBER_10, 10) = 6 THEN 'Nashville, TN'
+      WHEN MOD(NUMBER_10, 10) = 7 THEN 'Seattle, WA'
+      WHEN MOD(NUMBER_10, 10) = 8 THEN 'Charlotte, NC'
+      ELSE 'San Diego, CA'
+    END AS LOCATION,
+    
+    IP_ADDRESS,
+    BOOLEAN_34 AS PREMIUM_USER,
+    BOOLEAN_52 AS PUSH_NOTIFICATIONS_ON,
+    BOOLEAN_52 AS EMAIL_CONSENT,
+    BOOLEAN_52 AS ADS_CONSENT,
+    
+    -- Generate date fields based on number columns
+    DATEADD(DAY, -NUMBER_100, CURRENT_TIMESTAMP()) AS SIGNED_UP_DATE,
+    DATEADD(DAY, -NUMBER_7, CURRENT_TIMESTAMP()) AS LAST_LOGGED_IN_DATE,
+    DATEADD(DAY, +NUMBER_100, CURRENT_TIMESTAMP()) AS PLAN_RENEWAL_DATE,
+    
+    NUMBER_10 AS NUMBER_ACTIVE_CHATS,
+    NUMBER_100 AS INTENT_SCORE,
+    
+    -- Adjust LTV to a range of $19 to $250 with a dollar sign
+    CONCAT('$', CAST(19 + MOD(NUMBER_365, 232) AS STRING)) AS LTV,
+    
+    -- Split column values
+    CASE
+      WHEN NUMBER_10 IN (0, 1, 3, 4, 5, 6, 7) THEN 'Treatment A'
+      WHEN NUMBER_10 IN (2, 8) THEN 'Treatment B'
+      WHEN NUMBER_10 IN (9, 10) THEN 'Holdout'
+      ELSE NULL
+    END AS SPLIT_COLUMN,
+    
+    -- Initial source assignment
+    CASE
+      WHEN NUMBER_7 IN (0, 1, 6, 7) THEN 'Facebook'
+      WHEN NUMBER_7 = 2 THEN 'Google'
+      WHEN NUMBER_7 = 3 THEN 'Instagram'
+      WHEN NUMBER_7 IN (4, 5) THEN 'TikTok'
+      ELSE NULL
+    END AS INITIAL_SOURCE
+
+  FROM
+    PUBLIC.USERS
+  CROSS JOIN (
+    -- Controls how many times the users model is multiplied
+    VALUES
+      (1),
+      (2),
+      (3),
+      (4),
+      (5),
+      (6)
+  ) AS MULTIPLIER (REPEAT);
+primaryKey: USER_ID
+primaryLabel: FIRST_NAME
+secondaryLabel: EMAIL

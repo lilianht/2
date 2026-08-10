@@ -1,0 +1,11 @@
+from:
+  relationshipName: Submitted provider feedback via app
+  slug: patients
+  mergeColumns: false
+to:
+  slug: submitted-provider-feedback-via-app
+  mergeColumns: false
+cardinality: 1:many
+mapping:
+  - fromColumn: PATIENT_ID
+    toColumn: PATIENT_ID

@@ -1,0 +1,11 @@
+from:
+  relationshipName: Viewed upgrade options
+  slug: loco-users
+  mergeColumns: false
+to:
+  slug: viewed-upgrade-options
+  mergeColumns: false
+cardinality: 1:many
+mapping:
+  - fromColumn: USER_ID
+    toColumn: USER_ID

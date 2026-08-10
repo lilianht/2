@@ -1,0 +1,5 @@
+name: Website Events
+source: snowflake-lilian
+type: table
+tableName: PUBLIC.WEBSITE_EVENTS
+primaryKey: EVENT_ID

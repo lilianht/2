@@ -1,0 +1,11 @@
+from:
+  relationshipName: Job metadata
+  slug: submitted-client-review
+  mergeColumns: false
+to:
+  slug: job-metadata
+  mergeColumns: false
+cardinality: many:1
+mapping:
+  - fromColumn: SKU
+    toColumn: SKU

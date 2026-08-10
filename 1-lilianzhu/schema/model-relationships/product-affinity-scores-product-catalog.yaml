@@ -1,0 +1,11 @@
+from:
+  relationshipName: Product Catalog
+  slug: product-affinity-scores
+  mergeColumns: false
+to:
+  slug: product-catalog
+  mergeColumns: false
+cardinality: '1:1'
+mapping:
+  - fromColumn: SKU
+    toColumn: SKU

@@ -1,0 +1,63 @@
+name: Submitted client review
+source: marketplace
+type: raw_sql
+rawSql: |-
+  SELECT
+    user_id,
+    event_id,
+    DATEADD(DAY, - number_7, CURRENT_TIMESTAMP()) AS TIMESTAMP,
+    -- DATEADD(DAY, - number_365, CURRENT_TIMESTAMP()) AS timestamp,
+    -- DATEADD(DAY, - number_30, CURRENT_TIMESTAMP()) AS timestamp,
+    boolean_52 AS logged_in,
+    number_100 * 10 AS order_value,
+    user_id as SKU,
+    CASE
+      WHEN number_10 = 0 THEN 'Cleaner'
+      WHEN number_10 = 1 THEN 'Plumber'
+      WHEN number_10 = 2 THEN 'Electrician'
+      WHEN number_10 = 3 THEN 'Painter'
+      WHEN number_10 = 4 THEN 'Mover'
+      WHEN number_10 = 5 THEN 'Landscaper'
+      WHEN number_10 = 6 THEN 'Handypeople'
+      WHEN number_10 = 7 THEN 'Contractor'
+      WHEN number_10 = 8 THEN 'Exterminator'
+      WHEN number_10 = 9 THEN 'Notary'
+      WHEN number_10 = 10 THEN 'Accountant'
+      ELSE NULL
+    END AS Job_Type,
+    CASE
+      WHEN number_7 = 0 THEN 'Android'
+      WHEN number_7 = 1 THEN 'Android'
+      WHEN number_7 = 2 THEN 'Android'
+      WHEN number_7 = 3 THEN 'iOS'
+      WHEN number_7 = 4 THEN 'iOS'
+      WHEN number_7 = 5 THEN 'iOS'
+      WHEN number_7 = 6 THEN 'iOS'
+      WHEN number_7 = 7 THEN 'iOS'
+      ELSE NULL
+    END AS OS,
+    CASE
+      WHEN number_7 = 0 THEN 'Tablet'
+      WHEN number_7 = 1 THEN 'Tablet'
+      WHEN number_7 = 2 THEN 'Tablet'
+      WHEN number_7 = 3 THEN 'Phone'
+      WHEN number_7 = 4 THEN 'Phone'
+      WHEN number_7 = 5 THEN 'Phone'
+      WHEN number_7 = 6 THEN 'Phone'
+      WHEN number_7 = 6 THEN 'Phone'
+      ELSE NULL
+    END AS DEVICE_TYPE,
+      CASE
+      WHEN number_7 = 0 THEN 'Facebook'
+      WHEN number_7 = 1 THEN 'Facebook'
+      WHEN number_7 = 2 THEN 'Google'
+      WHEN number_7 = 3 THEN 'Instagram'
+      WHEN number_7 = 4 THEN 'TikTok'
+      WHEN number_7 = 5 THEN 'TikTok'
+      WHEN number_7 = 6 THEN 'Facebook'
+      WHEN number_7 = 7 THEN 'Facebook'
+      ELSE NULL
+    END AS SOURCE,
+  FROM
+    PUBLIC.events
+eventTimestampColumn: TIMESTAMP

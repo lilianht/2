@@ -1,0 +1,24 @@
+name: Job metadata
+source: marketplace
+type: raw_sql
+rawSql: |-
+  SELECT
+    user_id as sku,
+    number_1000 AS inventory_count,
+    CASE
+      WHEN number_10 = 0 THEN 'Floss Lipstick'
+      WHEN number_10 = 1 THEN 'Super Serum Silk Foundation'
+      WHEN number_10 = 2 THEN 'Mystic Romance Palette'
+      WHEN number_10 = 3 THEN 'Liquid Lipstick'
+      WHEN number_10 = 4 THEN 'Revealer Concealer'
+      WHEN number_10 = 5 THEN 'Sugar Lip Treatment'
+      WHEN number_10 = 6 THEN 'Rose Face Mask'
+      WHEN number_10 = 7 THEN 'Floss Lipstick'
+      WHEN number_10 = 8 THEN 'Floss Lipstick'
+      WHEN number_10 = 9 THEN 'Floss Lipstick'
+      WHEN number_10 = 10 THEN 'Floss Lipstick'
+      ELSE NULL
+    END AS Product_name,
+
+  FROM
+    PUBLIC.USERS

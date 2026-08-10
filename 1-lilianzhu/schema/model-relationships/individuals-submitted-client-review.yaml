@@ -1,0 +1,11 @@
+from:
+  relationshipName: Submitted client review
+  slug: individuals
+  mergeColumns: false
+to:
+  slug: submitted-client-review
+  mergeColumns: false
+cardinality: 1:many
+mapping:
+  - fromColumn: USER_ID
+    toColumn: USER_ID

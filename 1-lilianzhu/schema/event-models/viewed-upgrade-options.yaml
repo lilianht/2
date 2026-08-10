@@ -1,0 +1,36 @@
+name: Viewed upgrade options
+source: snowflake-bumble
+description: Distinct views of plan upgrade options
+type: raw_sql
+rawSql: |-
+  SELECT
+    user_id,
+    DATEADD(DAY, - number_7, CURRENT_TIMESTAMP()) AS TIMESTAMP,
+      CASE
+      WHEN number_10 = 0 THEN 'Boost'
+      WHEN number_10 = 1 THEN 'Boost'
+      WHEN number_10 = 2 THEN 'Boost'
+      WHEN number_10 = 3 THEN 'Boost'
+      WHEN number_10 = 4 THEN 'Boost'
+      WHEN number_10 = 5 THEN 'Boost'
+      WHEN number_10 = 6 THEN 'Premium'
+      WHEN number_10 = 7 THEN 'Premium'
+      WHEN number_10 = 8 THEN 'Premium'
+      WHEN number_10 = 9 THEN 'Premium+'
+      WHEN number_10 = 10 THEN 'Premium+'
+      ELSE NULL
+    END AS plan,
+    CASE
+      WHEN number_7 = 0 THEN 'Week'
+      WHEN number_7 = 1 THEN 'Week'
+      WHEN number_7 = 2 THEN 'Week'
+      WHEN number_7 = 3 THEN 'Month'
+      WHEN number_7 = 4 THEN 'Month'
+      WHEN number_7 = 5 THEN '3 months'
+      WHEN number_7 = 6 THEN '3 months'
+      WHEN number_7 = 7 THEN 'Lifetime'
+      ELSE NULL
+    END AS PLAN_LENGTH
+  FROM
+    PUBLIC.events
+eventTimestampColumn: TIMESTAMP

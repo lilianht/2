@@ -1,0 +1,11 @@
+from:
+  relationshipName: Created account
+  slug: customers
+  mergeColumns: false
+to:
+  slug: created-account
+  mergeColumns: false
+cardinality: '1:1'
+mapping:
+  - fromColumn: USER_ID
+    toColumn: USER_ID

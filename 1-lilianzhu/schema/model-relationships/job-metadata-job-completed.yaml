@@ -1,0 +1,11 @@
+from:
+  relationshipName: Job completed
+  slug: job-metadata
+  mergeColumns: false
+to:
+  slug: job-completed
+  mergeColumns: false
+cardinality: 1:many
+mapping:
+  - fromColumn: SKU
+    toColumn: SKU

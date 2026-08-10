@@ -1,0 +1,11 @@
+from:
+  relationshipName: Push Notification Metadata
+  slug: push-logs
+  mergeColumns: true
+to:
+  slug: push-notification-metadata
+  mergeColumns: false
+cardinality: '1:1'
+mapping:
+  - fromColumn: PUSH_ID
+    toColumn: PUSH_ID

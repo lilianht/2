@@ -1,0 +1,11 @@
+from:
+  relationshipName: Renewed
+  slug: contacts
+  mergeColumns: false
+to:
+  slug: renewed
+  mergeColumns: false
+cardinality: 1:many
+mapping:
+  - fromColumn: CONTACT_ID
+    toColumn: CONTACT_ID

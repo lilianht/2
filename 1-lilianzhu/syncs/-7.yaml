@@ -1,0 +1,26 @@
+model: clients-first-time-job-posted-conversions
+destination: undefined-2ed35-fb9c9
+config:
+  mappings:
+    - to: event_id
+      from: EVENT_ID
+      type: standard
+    - to: event_source_url
+      from: EVENT_NAME
+      type: standard
+    - to: user_data.em
+      from: USER_EMAIL
+      type: standard
+    - to: user_data.client_ip_address
+      from: IP_ADDRESS
+      type: standard
+  eventName:
+    from: EVENT_NAME
+  timestamp:
+    from: EVENT_TIMESTAMP
+  actionSource: website
+  configVersion: 1
+  customMappings: []
+schedule:
+  type: manual
+schedulePaused: false

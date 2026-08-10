@@ -1,0 +1,67 @@
+name: Contracts
+source: snowflake-lilian
+type: raw_sql
+rawSql: |
+  WITH Users AS (
+    SELECT
+      USER_ID AS userid,
+      FIRST_NAME AS name,
+      EMAIL AS email,
+      CASE
+        WHEN BOOLEAN_34 THEN 'client'
+        ELSE 'freelancer'
+      END AS role,
+      CASE
+        WHEN NUMBER_7 BETWEEN 1 AND 3 THEN 'Sales'
+        WHEN NUMBER_7 BETWEEN 4 AND 6 THEN 'Marketing'
+        ELSE 'Web, Mobile & Software Development'
+      END AS skill_category
+    FROM
+      Public.users
+  ),
+  Contracts AS (
+    SELECT
+      ROW_NUMBER() OVER (ORDER BY e.EVENT_ID) AS contractid, -- Generates unique, sequential contract IDs
+      e.USER_ID AS clientuserid,
+      u1.email AS clientemail, -- Fetches the email associated with the client
+      DATEADD(DAY, -(e.NUMBER_365 + ROW_NUMBER() OVER (PARTITION BY e.USER_ID ORDER BY e.EVENT_ID)), CURRENT_DATE()) AS contract_start,
+      DATEADD(DAY, 45, DATEADD(DAY, -(e.NUMBER_365 + ROW_NUMBER() OVER (PARTITION BY e.USER_ID ORDER BY e.EVENT_ID)), CURRENT_DATE())) AS contract_end,
+      u2.userid AS freelanceruserid,
+      u2.name AS freelancerusername,
+      u2.email AS freelancer_email, -- Fetches the email associated with the freelancer
+      DATEADD(DAY, -e.NUMBER_30, CURRENT_DATE()) AS date, -- Simple "date" column
+      CASE
+        WHEN e.BOOLEAN_87 THEN 'open'
+        ELSE 'closed'
+      END AS status,
+      e.BOOLEAN_34 AS payment_outstanding,
+      ROW_NUMBER() OVER (PARTITION BY e.USER_ID ORDER BY e.EVENT_ID) AS contract_index,
+      e.NUMBER_100 AS contract_amount -- Simulates payment exchanged for each contract
+    FROM
+      Public.events e
+    INNER JOIN Users u1
+      ON e.USER_ID = u1.userid
+      AND u1.role = 'client' -- Ensure we fetch only clients
+    INNER JOIN Users u2
+      ON e.USER_ID != u2.userid
+      AND u2.role = 'freelancer' -- Ensure we fetch only freelancers
+  )
+  SELECT
+    contractid,
+    clientuserid,
+    clientemail,
+    contract_start,
+    contract_end,
+    freelanceruserid,
+    freelancerusername,
+    freelancer_email,
+    status,
+    payment_outstanding,
+    contract_amount
+  FROM
+    Contracts
+  WHERE
+    contract_index <= 4 -- Ensures 0–4 contracts per client
+primaryKey: CONTRACTID
+primaryLabel: CONTRACTID
+secondaryLabel: CONTRACT_START

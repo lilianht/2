@@ -1,0 +1,11 @@
+from:
+  relationshipName: Opened marketing email
+  slug: customers
+  mergeColumns: false
+to:
+  slug: opened-marketing-email
+  mergeColumns: false
+cardinality: 1:many
+mapping:
+  - fromColumn: USER_ID
+    toColumn: USER_ID

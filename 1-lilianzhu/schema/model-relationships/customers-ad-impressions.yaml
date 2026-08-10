@@ -1,0 +1,11 @@
+from:
+  relationshipName: Ad Impressions
+  slug: customers
+  mergeColumns: false
+to:
+  slug: ad-impressions
+  mergeColumns: false
+cardinality: 1:many
+mapping:
+  - fromColumn: USER_ID
+    toColumn: ANONYMOUS_ID

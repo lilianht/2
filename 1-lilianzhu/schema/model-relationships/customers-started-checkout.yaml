@@ -1,0 +1,11 @@
+from:
+  relationshipName: Started checkout
+  slug: customers
+  mergeColumns: false
+to:
+  slug: started-checkout
+  mergeColumns: false
+cardinality: 1:many
+mapping:
+  - fromColumn: USER_ID
+    toColumn: USER_ID

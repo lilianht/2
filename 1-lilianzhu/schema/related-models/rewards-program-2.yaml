@@ -1,0 +1,21 @@
+name: Rewards Program
+source: e-commerce
+type: raw_sql
+rawSql: |
+  SELECT
+      USER_ID,
+      -- Rename membership tier to VIP_TIER
+      CASE
+          WHEN BOOLEAN_34 THEN 'Gold'
+          ELSE 'Silver'
+      END AS VIP_TIER,
+      -- Generate reward points between 50 and 1000
+      50 + MOD(NUMBER_1000, 951) AS REWARD_POINTS, -- Random points between 50 and 1000
+      -- Generate number of referrals between 0 and 5
+      MOD(NUMBER_10, 6) AS NUMBER_OF_REFERRALS, -- Random values from 0 to 5
+      -- Replace membership start date with joined_at
+      DATEADD('day', -MOD(NUMBER_365, 365), CURRENT_DATE()) AS JOINED_AT,
+      -- Generate last reward redeemed date between 6 months ago and today
+      DATEADD('day', -MOD(NUMBER_100, 180), CURRENT_DATE()) AS LAST_REWARD_REDEEMED
+  FROM
+      PUBLIC.USERS;

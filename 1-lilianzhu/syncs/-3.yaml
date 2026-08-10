@@ -1,0 +1,17 @@
+model: braze-subscription-group
+destination: undefined-885f0-de6f2
+config:
+  type: subscription
+  mappings: []
+  deleteMode: removeFromList
+  configVersion: 3
+  customMappings: []
+  externalIdMapping:
+    to: email
+    from: EMAIL
+    type: standard
+  subscriptionGroupId: a15a3726-43df-48b2-914b-b84690a2eb33
+  subscriptionGroupType: email
+schedule:
+  type: manual
+schedulePaused: false

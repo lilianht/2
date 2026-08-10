@@ -1,0 +1,7 @@
+name: Users
+source: Snowflake-a4ac9
+type: table
+tableName: PUBLIC.USERS
+primaryKey: USER_ID
+primaryLabel: FIRST_NAME
+secondaryLabel: EMAIL

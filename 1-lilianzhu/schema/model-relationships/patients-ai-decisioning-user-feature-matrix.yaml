@@ -1,0 +1,11 @@
+from:
+  relationshipName: AI Decisioning User Feature Matrix
+  slug: patients
+  mergeColumns: false
+to:
+  slug: ai-decisioning-user-feature-matrix
+  mergeColumns: false
+cardinality: '1:1'
+mapping:
+  - fromColumn: USER_ID
+    toColumn: USER_ID

@@ -1,0 +1,71 @@
+name: Single merchant profile
+source: b2-b-accounts
+description: >-
+  Single merchant profile to list each account with its corresponding user
+  contacts, leads, purchased product solutions, and contact engagement history.
+type: raw_sql
+rawSql: |-
+  SELECT 
+      a.account_id,
+      a.merchant_id,
+      a.transaction_volume,
+      a.active_merchant,
+      a.tier,
+      a.industry,
+      
+      ARRAY_AGG(DISTINCT OBJECT_CONSTRUCT(
+          'contact_id', c.contact_id,
+          'first_name', c.first_name,
+          'email', c.email,
+          'phone', c.phone,
+          'pref_language', c.pref_language,
+          'pref_channel', c.pref_channel
+      )) AS contacts,
+
+      ARRAY_AGG(DISTINCT OBJECT_CONSTRUCT(
+          'lead_id', l.lead_id,
+          'first_name', l.first_name,
+          'email', l.email,
+          'campaign_source', l.campaign_source,
+          'lead_source', l.lead_source,
+          'propensity_score', l.propensity_score
+      )) AS leads,
+      
+      ARRAY_AGG(DISTINCT s.solution) AS solutions,
+      
+      ARRAY_AGG(DISTINCT OBJECT_CONSTRUCT(
+          'event_id', e.event_id,
+          'event_type', e.event_type,
+          'timestamp', e.timestamp
+      )) AS engagement_history
+
+  FROM 
+      lilian.public.b2b_accounts AS a
+
+  LEFT JOIN 
+      lilian.public.b2b_contacts AS c
+  ON 
+      a.account_id = c.account_id
+
+  LEFT JOIN 
+      lilian.public.b2b_leads AS l
+  ON 
+      a.account_id = l.account_id
+
+  LEFT JOIN 
+      lilian.public.b2b_solutions AS s
+  ON 
+      a.account_id = s.account_id
+
+  LEFT JOIN 
+      lilian.public.b2b_contact_events AS e
+  ON 
+      c.contact_id = e.contact_id
+
+  GROUP BY 
+      a.account_id, a.merchant_id, a.transaction_volume, a.active_merchant, a.tier, a.industry
+  ORDER BY 
+      a.account_id ASC;
+primaryKey: ACCOUNT_ID
+primaryLabel: MERCHANT_ID
+secondaryLabel: ACTIVE_MERCHANT

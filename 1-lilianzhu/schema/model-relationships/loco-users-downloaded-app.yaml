@@ -1,0 +1,11 @@
+from:
+  relationshipName: Downloaded app
+  slug: loco-users
+  mergeColumns: false
+to:
+  slug: downloaded-app
+  mergeColumns: false
+cardinality: 1:many
+mapping:
+  - fromColumn: USER_ID
+    toColumn: USER_ID

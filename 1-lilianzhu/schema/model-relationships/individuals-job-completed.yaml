@@ -1,0 +1,11 @@
+from:
+  relationshipName: Job completed
+  slug: individuals
+  mergeColumns: false
+to:
+  slug: job-completed
+  mergeColumns: false
+cardinality: 1:many
+mapping:
+  - fromColumn: USER_ID
+    toColumn: USER_ID

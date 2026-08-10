@@ -1,0 +1,11 @@
+from:
+  relationshipName: Contacts
+  slug: accounts
+  mergeColumns: false
+to:
+  slug: contacts-2
+  mergeColumns: false
+cardinality: 1:many
+mapping:
+  - fromColumn: ACCOUNT_ID
+    toColumn: ACCOUNT_ID

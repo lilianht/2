@@ -1,0 +1,8 @@
+name: B2C [Healthcare]
+source: Snowflake-75068
+description: >-
+  This model can be used to pull in B2B data for accounts, products, contacts,
+  leads, and events.
+type: raw_sql
+rawSql: select * from lilian.public.patients
+primaryKey: PATIENT_ID

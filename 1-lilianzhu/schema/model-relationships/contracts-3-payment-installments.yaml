@@ -1,0 +1,11 @@
+from:
+  relationshipName: Payment Installments
+  slug: contracts-3
+  mergeColumns: false
+to:
+  slug: payment-installments
+  mergeColumns: false
+cardinality: 1:many
+mapping:
+  - fromColumn: CONTRACTID
+    toColumn: CONTRACT_UID
